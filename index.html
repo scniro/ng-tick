@@ -7,12 +7,23 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.js"></script>
 </head>
 <body>
-
+	<style>
+		[tick] {
+			display: block;
+		}
+	</style>
 	<div ng-controller="ctrl">
-		<span tick start="0" end="300" duration="2.5"></span>
+
+		<!--<button ng-click="start()">start</button>-->
+
+		<span tick="clock" handle="mytick"></span>
+
+		<span tick="ticker" handle="mytick"></span>
+
 	</div>
 
 	<script src="demo-site/js/app.js"></script>
 	<script src="ng-tick/src/ng-tick.js"></script>
+	<script src="ng-tick/src/tock.js"></script>
 </body>
 </html>

@@ -1,33 +1,55 @@
 ﻿angular.module('ngTick', [])
-.directive('tick', function ($timeout) {
+.directive('tick', function () {
 	return {
 		scope: {
-			start: '=',
-			end: '='
+			tick: '@'
 		},
 		link: function (scope, elem, attrs) {
 
-			var delay = 0;
+			scope.$root[attrs.handle] = scope;
 
-			$timeout(function () {
-				(function tick(i) {
 
-					function increment(i) {
-						if (++i <= scope.end)
-							tick(i);
+			function clock() {
+				var start = new Date().getTime();
+
+				var timer = new Tock({
+					callback: function () {
+
+						var tick = timer.lap();
+
+						var date = new Date(start + tick);
+
+						elem.text(date);
 					}
+				});
 
-					function decrement(i) {
-						if (--i <= scope.start && --i >= scope.end)
-							tick(i);
+				timer.start();
+			}
+
+			function ticker() {
+
+				var timer = new Tock({
+					callback: function () {
+						elem.text(timer.lap());
 					}
+				});
 
-					setTimeout(function () {
-						elem.text(i);
-						scope.start < scope.end ? increment(i) : decrement(i);
-					}, delay);
-				})(scope.start);
-			});
+				timer.start();
+			}
+
+			scope.start = function () {
+				switch (scope.tick.toLowerCase()) {
+					case 'clock':
+						clock();
+						break;
+					case 'ticker':
+						ticker();
+						break;
+				}
+
+			}
+
+			scope.start();
 		}
 	}
 });

@@ -2,4 +2,7 @@
 
 app.controller('ctrl', ['$scope', function ($scope) {
 
+	$scope.start = function () {
+		$scope.mytick.start();
+	}
 }]);
