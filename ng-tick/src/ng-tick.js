@@ -1,5 +1,5 @@
 ﻿angular.module('ngTick', [])
-.directive('tick', function () {
+.directive('tick', function ($filter) {
 	return {
 		scope: {
 			tick: '@'
@@ -8,6 +8,7 @@
 
 			scope.$root[attrs.handle] = scope;
 
+			var filter = $filter('date');
 
 			function clock() {
 				var start = new Date().getTime();
@@ -19,7 +20,7 @@
 
 						var date = new Date(start + tick);
 
-						elem.text(date);
+						elem.text(filter(new Date(date), 'MMM dd yyyy hh:mm:ss'));
 					}
 				});
 
@@ -39,14 +40,9 @@
 
 			scope.start = function () {
 				switch (scope.tick.toLowerCase()) {
-					case 'clock':
-						clock();
-						break;
-					case 'ticker':
-						ticker();
-						break;
+					case 'clock': clock(); break;
+					case 'ticker': ticker(); break;
 				}
-
 			}
 
 			scope.start();
