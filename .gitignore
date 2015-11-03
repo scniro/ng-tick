@@ -1,5 +1,4 @@
-﻿bin
-bower_components
+﻿bower_components
 node_modules
 obj
 Properties
@@ -9,3 +8,4 @@ Properties
 *.user
 *.sln
 *.ico
+bin
