@@ -8,19 +8,26 @@
 </head>
 <body>
 	<style>
-		[tick] {
+		span {
 			display: block;
 		}
 	</style>
-	<div ng-controller="ctrl">
+<div ng-controller="ctrl">
 
-		<span tick="clock" handle="myclock" format="MMM d, y h:mm:ss"></span>
+	<button ng-click="startClock('myclock')">start clock</button>
 
-		<span tick="ticker" handle="myticker" format="HH:mm:ss:sss"></span>
+	<button ng-click="startTicker('myticker')">start ticker</button>
+
+	<button ng-click="startCountdown('mycountdown')">start countdown</button>
+
+	<span clock="myclock" format="MMM d, y h:mm:ss" trigger="true"></span>
 		
-		<span tick="countdown" from="{ 'h': 2, 'm': 30, 's': 45 }" handle="mycountdown" format="HH:mm:ss:sss"></span>
-
-	</div>
+	<span ticker="myticker" format="HH:mm:ss:sss" trigger="true"></span>
+		
+	<span countdown="mycountdown" format="HH:mm:ss:sss" duration="{ 'h': 0, 'm': 0, 's': 3 }" trigger="true"></span>
+	
+	<span countdown="blash" format="HH:mm:ss:sss" duration="{ 'h': 0, 'm': 0, 's': 3 }" ></span>
+</div>
 
 	<script src="demo-site/js/app.js"></script>
 	<script src="ng-tick/src/ng-tick.js"></script>
