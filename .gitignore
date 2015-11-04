@@ -1,7 +1,4 @@
-﻿bower_components
-node_modules
-obj
-Properties
+﻿Properties
 *.config
 *.cs
 *.csproj
@@ -9,3 +6,6 @@ Properties
 *.sln
 *.ico
 bin
+bower_components
+node_modules
+obj

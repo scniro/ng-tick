@@ -1,0 +1,115 @@
+/* moonkai */
+html, body, div, form, fieldset, legend, label {
+  margin: 0;
+  padding: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+th, td {
+  text-align: left;
+  vertical-align: top; }
+
+h1, h2, h3, h4, h5, h6, th, td, caption {
+  font-weight: normal; }
+
+img {
+  border: 0; }
+
+aside.spine {
+  width: 12.000em;
+  padding-top: 2.000em; }
+  aside.spine a {
+    text-decoration: none;
+    color: #767DC2; }
+    aside.spine a:hover {
+      text-decoration: underline; }
+  aside.spine ol {
+    list-style: none;
+    padding-left: 0;
+    margin: 0; }
+    aside.spine ol li {
+      padding-top: 0.125em;
+      padding-bottom: 0.125em; }
+      aside.spine ol li span {
+        display: block;
+        padding-left: 2.000em; }
+      aside.spine ol li.static {
+        color: #3E3D32; }
+      aside.spine ol li.root div {
+        border-bottom: solid 0.063em #D08C3B; }
+      aside.spine ol li.sub {
+        padding-left: 2.000em; }
+        aside.spine ol li.sub div {
+          border-bottom: solid 0.063em #D08C3B;
+          border-left: solid 0.063em #D08C3B; }
+      aside.spine ol li div {
+        float: left;
+        height: 0.375em;
+        width: 1.250em;
+        margin-top: 0.375em;
+        margin-right: 0.500em; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  overflow: hidden;
+  min-width: 58.000em;
+  overflow-x: auto;
+  background-color: #f5f2f0; }
+
+header {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.500em 2.000em;
+  height: 4.000em;
+  background-color: #FFF;
+  overflow: hidden;
+  background-color: #689BB7; }
+  header h1 {
+    display: inline;
+    font-size: 20pt;
+    letter-spacing: 0.125em;
+    color: #FFF;
+    line-height: 180%; }
+  header a {
+    text-decoration: none;
+    color: inherit; }
+    header a:nth-child(2) {
+      float: right;
+      position: relative;
+      top: 1.750em;
+      transition: .10s ease-in; }
+      header a:nth-child(2) img {
+        width: 8.000em; }
+      header a:nth-child(2):hover {
+        -webkit-transform: translateY(-1.875em);
+        transform: translateY(-1.875em); }
+
+section.content {
+  padding: 2.000em;
+  overflow-y: auto;
+  overflow: auto;
+  position: absolute;
+  top: 4.000em;
+  left: 12.000em;
+  right: 0;
+  bottom: 0;
+  min-width: 42.000em;
+  background-color: #FFF; }
+  section.content h1 {
+    margin-top: 0; }
+  section.content section.pane {
+    width: 50%;
+    box-sizing: border-box;
+    padding-right: 2.000em; }
+    section.content section.pane.left {
+      float: left; }
+      section.content section.pane.left.attributes {
+        width: 75%;
+        font-size: 10pt; }
+      section.content section.pane.left.icons {
+        width: 50%;
+        font-size: 10pt; }
+    section.content section.pane.right {
+      float: right; }

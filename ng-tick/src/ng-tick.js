@@ -78,7 +78,7 @@
 	}
 })
 
-.directive('countdown', function ($filter, timeHelper) {
+.directive('countdown', function ($filter, tickHelper) {
 	return {
 		scope: {
 			format: '@',
@@ -119,7 +119,7 @@
 
 				timer.stop();
 	
-				var duration = timeHelper.getDuration(scope.duration);
+				var duration = tickHelper.getDuration(scope.duration);
 
 				timer.start(duration);
 			}
@@ -130,7 +130,7 @@
 	}
 })
 
-.factory('timeHelper', function () {
+.factory('tickHelper', function () {
 
 	function getDuration(chunk) {
 
