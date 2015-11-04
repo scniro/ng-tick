@@ -16,9 +16,9 @@
 
 		<span tick="clock" handle="myclock" format="MMM d, y h:mm:ss"></span>
 
-		<span tick="ticker" handle="myticker" format="HH:mm:ss"></span>
+		<span tick="ticker" handle="myticker" format="HH:mm:ss:sss"></span>
 		
-		<span tick="countdown" from="5000" handle="mycountdown"></span>
+		<span tick="countdown" from="{ 'h': 2, 'm': 30, 's': 45 }" handle="mycountdown" format="HH:mm:ss:sss"></span>
 
 	</div>
 

@@ -1,10 +1,10 @@
 ﻿angular.module('ngTick', [])
-.directive('tick', function ($filter) {
+.directive('tick', function ($filter, timeHelper) {
 	return {
 		scope: {
 			tick: '@',
 			format: '@',
-			from: '@'
+			from: '='
 		},
 		link: function (scope, elem, attrs) {
 
@@ -39,17 +39,25 @@
 
 				var timer = new Tock({
 					countdown: true,
-					interval: 1000,
+					interval: 1,
 					callback: function () {
 
-						var round = (Math.ceil(timer.lap() / 1000) * 1000) >= 0 ? Math.ceil(timer.lap() / 1000) * 1000 : 0;
+						//var round = (Math.ceil(timer.lap() / 1000) * 1000) >= 0 ? Math.ceil(timer.lap() / 1000) * 1000 : 0;
 
-						elem.text(timer.msToTimecode(round));
+						//var time = relative(round);
+
+						var time = relative(timer.lap());
+
+						time = filter(time, scope.format);
+
+						elem.text(time);
 					},
 					complete: onCountDownEnd
 				});
 
-				timer.start(scope.from);
+				var diff = timeHelper.getTimeOffset(scope.from);
+
+				timer.start(9045000); // 2h, 45m, 30s;
 			}
 
 			function ticker() {
@@ -78,6 +86,16 @@
 
 			scope.start();
 		}
+	}
+})
+.factory('timeHelper', function () {
+
+	function getTimeOffset(chunk) {
+		console.log(chunk);
+	}
+
+	return {
+		'getTimeOffset': getTimeOffset
 	}
 })
 .filter('relativeTime', [function () {
