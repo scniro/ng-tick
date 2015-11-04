@@ -12,6 +12,8 @@
 
 			var filter = $filter('date');
 
+			var relative = $filter('relativeTime');
+
 			function clock() {
 				var start = new Date().getTime();
 
@@ -22,7 +24,7 @@
 
 						var date = new Date(start + tick);
 
-						scope.format ? elem.text(filter(new Date(date.toUTCString()), scope.format)) : elem.text(new Date(date.toUTCString()));
+						scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
 					}
 				});
 
@@ -55,7 +57,11 @@
 				var timer = new Tock({
 					callback: function () {
 
-						elem.text(timer.msToTimecode(timer.lap()));
+						var time = relative(timer.lap());
+
+						time = filter(time, scope.format);
+
+						elem.text(time);
 					}
 				});
 
@@ -73,4 +79,9 @@
 			scope.start();
 		}
 	}
-});
+})
+.filter('relativeTime', [function () {
+	return function (ms) {
+		return new Date(1970, 0, 1).setMilliseconds(ms);
+	};
+}])
