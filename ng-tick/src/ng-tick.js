@@ -1,156 +1,168 @@
-﻿angular.module('ngTick', [])
+﻿function init() {
 
-.directive('clock', function ($filter) {
+    angular.module('ngTick', [])
+        .directive('clock', ['$filter', function ($filter) {
 
-	return {
-		scope: {
-			format: '@',
-			handle: '@clock',
-			trigger: '='
-		},
-		link: function (scope, elem, attrs) {
+            return {
+                scope: {
+                    format: '@',
+                    handle: '@clock',
+                    trigger: '='
+                },
+                link: function (scope, elem, attrs) {
 
-			if(scope.handle)
-				scope.$root[scope.handle] = scope;
+                    if (scope.handle)
+                        scope.$root[scope.handle] = scope;
 
-			var filter = $filter('date');
+                    var filter = $filter('date');
 
-			var start = new Date().getTime();
+                    var start = new Date().getTime();
 
-			var timer = new Tock({
-				callback: function () {
+                    var timer = new Tock({
+                        callback: function () {
 
-					var tick = timer.lap();
+                            var tick = timer.lap();
 
-					var date = new Date(start + tick);
+                            var date = new Date(start + tick);
 
-					scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
-				}
-			});
+                            scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
+                        }
+                    });
 
-			scope.start = function () {
-				if(!timer.go)
-					timer.start();
-			}
+                    scope.start = function () {
+                        if (!timer.go)
+                            timer.start();
+                    }
 
-			if(!scope.trigger)
-				scope.start();
-		}
-	}
-})
+                    if (!scope.trigger)
+                        scope.start();
+                }
+            }
+        }])
 
-.directive('ticker', function ($filter) {
-	return {
-		scope: {
-			format: '@',
-			handle: '@ticker',
-			trigger: '='
-		},
-		link: function (scope, elem, attrs) {
+        .directive('ticker', ['$filter', function ($filter) {
+            return {
+                scope: {
+                    format: '@',
+                    handle: '@ticker',
+                    trigger: '='
+                },
+                link: function (scope, elem, attrs) {
 
-			if (scope.handle)
-				scope.$root[scope.handle] = scope;
+                    if (scope.handle)
+                        scope.$root[scope.handle] = scope;
 
-			var filter = $filter('date');
+                    var filter = $filter('date');
 
-			var relative = $filter('relativeTime');
+                    var relative = $filter('relativeTime');
 
-			var timer = new Tock({
-				callback: function () {
+                    var timer = new Tock({
+                        callback: function () {
 
-					var time = relative(timer.lap());
+                            var time = relative(timer.lap());
 
-					time = scope.format ? filter(time, scope.format) : timer.lap();
+                            time = scope.format ? filter(time, scope.format) : timer.lap();
 
-					elem.text(time);
-				}
-			});
+                            elem.text(time);
+                        }
+                    });
 
-			scope.start = function () {
+                    scope.start = function () {
 
-				timer.reset();
-				timer.start();
-			}
+                        timer.reset();
+                        timer.start();
+                    }
 
-			if (!scope.trigger)
-				scope.start();
-		}
-	}
-})
+                    if (!scope.trigger)
+                        scope.start();
+                }
+            }
+        }])
 
-.directive('countdown', function ($filter, tickHelper) {
-	return {
-		scope: {
-			format: '@',
-			handle: '@countdown',
-			duration: '=',
-			trigger: '='
-		},
-		link: function (scope, elem, attrs) {
+        .directive('countdown', ['$filter', 'tickHelper', function ($filter, tickHelper) {
+            return {
+                scope: {
+                    format: '@',
+                    handle: '@countdown',
+                    duration: '=',
+                    trigger: '='
+                },
+                link: function (scope, elem, attrs) {
 
-			if (scope.handle)
-				scope.$root[scope.handle] = scope;
+                    if (scope.handle)
+                        scope.$root[scope.handle] = scope;
 
-			var filter = $filter('date');
+                    var filter = $filter('date');
 
-			var relative = $filter('relativeTime');
+                    var relative = $filter('relativeTime');
 
-			var timer = new Tock({
-				countdown: true,
-				interval: 1,
-				callback: function () {
+                    var timer = new Tock({
+                        countdown: true,
+                        interval: 1,
+                        callback: function () {
 
-					//var round = (Math.ceil(timer.lap() / 1000) * 1000) >= 0 ? Math.ceil(timer.lap() / 1000) * 1000 : 0;
-					//var time = relative(round);
+                            //var round = (Math.ceil(timer.lap() / 1000) * 1000) >= 0 ? Math.ceil(timer.lap() / 1000) * 1000 : 0;
+                            //var time = relative(round);
 
-					var time = relative(timer.lap());
+                            var time = relative(timer.lap());
 
-					time = filter(time, scope.format);
+                            time = filter(time, scope.format);
 
-					elem.text(time);
-				},
-				complete: function () {
-					if (scope.handle)
-						scope.$root[scope.handle].$emit(scope.handle + ':end');
-				}
-			});
+                            elem.text(time);
+                        },
+                        complete: function () {
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':end');
+                        }
+                    });
 
-			scope.start = function () {
+                    scope.start = function () {
 
-				timer.stop();
-	
-				var duration = tickHelper.getDuration(scope.duration);
+                        timer.stop();
 
-				timer.start(duration);
-			}
+                        var duration = tickHelper.getDuration(scope.duration);
 
-			if (!scope.trigger)
-				scope.start();
-		}
-	}
-})
+                        timer.start(duration);
+                    }
 
-.factory('tickHelper', function () {
+                    if (!scope.trigger)
+                        scope.start();
+                }
+            }
+        }])
 
-	function getDuration(chunk) {
+        .factory('tickHelper', [function () {
 
-		var now = new Date();
+            function getDuration(chunk) {
 
-		now.setMilliseconds(now.getMilliseconds() + (chunk.ms || 0));
-		now.setSeconds(now.getSeconds() + (chunk.s || 0));
-		now.setMinutes(now.getMinutes() + (chunk.m || 0));
-		now.setHours(now.getHours() + (chunk.h || 0));
+                var now = new Date();
 
-		return Math.abs(now - new Date());
-	}
+                now.setMilliseconds(now.getMilliseconds() + (chunk.ms || 0));
+                now.setSeconds(now.getSeconds() + (chunk.s || 0));
+                now.setMinutes(now.getMinutes() + (chunk.m || 0));
+                now.setHours(now.getHours() + (chunk.h || 0));
 
-	return {
-		'getDuration': getDuration
-	}
-})
+                return Math.abs(now - new Date());
+            }
 
-.filter('relativeTime', [function () {
-	return function (ms) {
-		return new Date(1970, 0, 1).setMilliseconds(ms);
-	};
-}])
+            return {
+                'getDuration': getDuration
+            }
+        }])
+
+        .filter('relativeTime', [function () {
+            return function (ms) {
+                return new Date(1970, 0, 1).setMilliseconds(ms);
+            };
+        }]);
+}
+
+(function () {
+    if (typeof define === 'function' && define.amd) { // RequireJS aware
+        define(['angular'], function () {
+            init();
+        });
+    } else {
+        init();
+    }
+}());

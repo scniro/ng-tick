@@ -1,54 +1,54 @@
 ﻿aside.spine {
-	width: 12.000em;
-	padding-top: 2.000em;
+    width: 12.000em;
+    padding-top: 2.000em;
 
-	a {
-		text-decoration: none;
-		color: $link;
+    a {
+        text-decoration: none;
+        color: $link;
 
-		&:hover {
-			text-decoration: underline;
-		}
-	}
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 
-	ol {
-		list-style: none;
-		padding-left: 0;
-		margin: 0;
+    ol {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
 
-		li {
-			padding-top: 0.125em;
-			padding-bottom: 0.125em;
+        li {
+            padding-top: 0.125em;
+            padding-bottom: 0.125em;
 
-			span {
-				display: block;
-				padding-left: 2.000em;
-			}
+            span {
+                display: block;
+                padding-left: 2.000em;
+            }
 
-			&.static {
-				color: $black;
-			}
+            &.static {
+                color: $black;
+            }
 
-			&.root div {
-				border-bottom: solid 0.063em $spine-entry;
-			}
+            &.root div {
+                border-bottom: solid 0.063em $spine-entry;
+            }
 
-			&.sub {
-				padding-left: 2.000em;
+            &.sub {
+                padding-left: 2.000em;
 
-				div {
-					border-bottom: solid 0.063em $spine-entry;
-					border-left: solid 0.063em $spine-entry;
-				}
-			}
+                div {
+                    border-bottom: solid 0.063em $spine-entry;
+                    border-left: solid 0.063em $spine-entry;
+                }
+            }
 
-			div {
-				float: left;
-				height: 0.375em;
-				width: 1.250em;
-				margin-top: 0.375em;
-				margin-right: 0.500em;
-			}
-		}
-	}
+            div {
+                float: left;
+                height: 0.375em;
+                width: 1.250em;
+                margin-top: 0.375em;
+                margin-right: 0.500em;
+            }
+        }
+    }
 }
