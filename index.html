@@ -4,7 +4,7 @@
 <head>
 	<title>ngTick</title>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular.js"></script>
 </head>
 <body>
 	<style>
@@ -14,11 +14,11 @@
 	</style>
 	<div ng-controller="ctrl">
 
-		<!--<button ng-click="start()">start</button>-->
-
-		<span tick="clock" handle="myclock"></span>
+		<span tick="clock" handle="myclock" format="MMM d, y h:mm:ss"></span>
 
 		<span tick="ticker" handle="myticker"></span>
+		
+		<span tick="countdown" from="5000" handle="mycountdown"></span>
 
 	</div>
 
