@@ -71,7 +71,8 @@ header {
     font-size: 20pt;
     letter-spacing: 0.125em;
     color: #FFF;
-    line-height: 180%; }
+    line-height: 180%;
+    margin-left: 7em; }
   header a {
     text-decoration: none;
     color: inherit; }
@@ -113,3 +114,19 @@ section.content {
         font-size: 10pt; }
     section.content section.pane.right {
       float: right; }
+
+binary-clock {
+  position: absolute;
+  top: 0;
+  left: 0; }
+  binary-clock .field {
+    float: left; }
+  binary-clock .bit {
+    width: 2em;
+    height: 1em;
+    border: solid 1px #689BB7;
+    box-sizing: border-box; }
+  binary-clock .bit.on {
+    background-color: #CCE3EF; }
+  binary-clock .bit.off {
+    background-color: #98C0D6; }

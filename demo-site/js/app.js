@@ -26,6 +26,11 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
             url: '/directives/ticker',
             controller: 'tickerCtrl',
             templateUrl: 'demo-site/view/directives/ticker.html'
+        })
+        .state('binary', {
+            url: '/extras/binary',
+            controller: 'binaryCtrl',
+            templateUrl: 'demo-site/view/extras/binary.html'
         });
 }]);
 
@@ -54,3 +59,8 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         $scope[handle].start();
     }
 }]);
+
+app.controller('binaryCtrl', ['$scope', function ($scope) {
+
+}]);
+

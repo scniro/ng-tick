@@ -21,6 +21,7 @@ header {
         letter-spacing: 0.125em;
         color: $white;
         line-height: 180%;
+        margin-left: 7em;
     }
 
     a {
@@ -82,5 +83,30 @@ section.content {
         &.right {
             float: right;
         }
+    }
+}
+
+binary-clock {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .field {
+        float: left;
+    }
+
+    .bit {
+        width: 2em;
+        height: 1em;
+        border: solid 1px #689BB7;
+        box-sizing: border-box;
+    }
+
+    .bit.on {
+        background-color:  #CCE3EF;
+    }
+
+    .bit.off {
+        background-color: #98C0D6;
     }
 }

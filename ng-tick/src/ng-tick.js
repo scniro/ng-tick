@@ -131,6 +131,133 @@
             }
         }])
 
+        .directive('binaryClock', ['$timeout', function ($timeout) {
+            return {
+                restrict: 'E',
+                template:
+                '<div id="clock">' +
+                    '<div class="field" id="hours">' +
+                        '<table border="0" cellspacing="0" cellpadding="0">' +
+                           ' <tr>' +
+                                '<td><div class="blank"></div></td>' +
+                                '<td><div class="bit" id="hours-eights"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="blank" id="hours-forties"></div></td>' +
+                                '<td><div class="bit" id="hours-fours"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="bit" id="hours-twenties"></div></td>' +
+                                '<td><div class="bit" id="hours-twos"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="bit" id="hours-tens"></div></td>' +
+                                '<td><div class="bit" id="hours-ones"></div></td>' +
+                            '</tr>' +
+                        '</table>' +
+                    '</div>' +
+
+                    '<div class="field" id="minutes">' +
+                        '<table border="0" cellspacing="0" cellpadding="0">' +
+                            '<tr>' +
+                                '<td><div class="blank"></div></td>' +
+                                '<td><div class="bit" id="minutes-eights"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="bit" id="minutes-forties"></div></td>' +
+                                '<td><div class="bit" id="minutes-fours"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="bit" id="minutes-twenties"></div></td>' +
+                                '<td><div class="bit" id="minutes-twos"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div class="bit" id="minutes-tens"></div></td>' +
+                                '<td><div class="bit" id="minutes-ones"></div></td>' +
+                            '</tr>' +
+                        '</table>' +
+                    '</div>' +
+
+                    '<div class="field" id="seconds">' +
+                        '<table border="0" cellspacing="0" cellpadding="0">' +
+                            '<tr>' +
+                                '<td><div class="blank"></div></td>' +
+                                '<td><div id="seconds-eights" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div id="seconds-forties" class="bit"></div></td>' +
+                                '<td><div id="seconds-fours" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div id="seconds-twenties" class="bit"></div></td>' +
+                                '<td><div id="seconds-twos" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td><div id="seconds-tens" class="bit"></div></td>' +
+                                '<td><div id="seconds-ones" class="bit"></div></td>' +
+                            '</tr>' +
+                        '</table>' +
+                    '</div>' +
+                '</div>',
+                link: function (scope, elem, attrs) {
+
+                    $timeout(function () {
+                        function setBit(field, value) {
+
+                            var ele = document.getElementById(field);
+
+                            if (ele.classList.contains('blank'))
+                                return false;
+
+                            if (value)
+                                ele.setAttribute('class', 'bit on');
+                            else
+                                ele.setAttribute('class', 'bit off');
+                        }
+
+                        function setBCDs(field, value) {
+
+                            setBit(field + '-forties', value >= 40);
+
+                            if (value >= 40) { value -= 40; }
+                            setBit(field + '-twenties', value >= 20);
+                            if (value >= 20) { value -= 20; }
+                            setBit(field + '-tens', value >= 10);
+                            if (value >= 10) { value -= 10; }
+                            setBit(field + '-eights', value >= 8);
+                            if (value >= 8) { value -= 8; }
+                            setBit(field + '-fours', value >= 4);
+                            if (value >= 4) { value -= 4; }
+                            setBit(field + '-twos', value >= 2);
+                            if (value >= 2) { value -= 2; }
+                            setBit(field + '-ones', value >= 1);
+                        }
+
+                        function tick() {
+                            var now = new Date();
+                            setBCDs('hours', now.getHours());
+                            setBCDs('minutes', now.getMinutes());
+                            setBCDs('seconds', now.getSeconds());
+                        }
+
+                        tick();
+
+                        var timer = new Tock({
+                            countdown: true,
+                            interval: 100,
+                            callback: function () {
+                                tick();
+                            }
+                        });
+
+                        timer.start(Date.now());
+
+                        //self.setInterval(tick, 500); // - mayhaps?
+                    });
+                }
+            }
+        }])
+
         .factory('tickHelper', [function () {
 
             function getDuration(chunk) {

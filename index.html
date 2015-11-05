@@ -33,6 +33,8 @@
         <span countdown="mycountdown" format="HH:mm:ss:sss" duration="{ 'h': 0, 'm': 0, 's': 3 }" trigger="true"></span>
     </div>-->
 
+    <binary-clock></binary-clock>
+
     <div>
         <header>
             <h1>
@@ -52,16 +54,20 @@
                 <li class="static">
                     <span>directives</span>
                 </li>
-
                 <li class="sub">
                     <div></div><a ui-sref="clock"><span>clock</span></a>
                 </li>
                 <li class="sub">
                     <div></div><a ui-sref="countdown"><span>countdown</span></a>
                 </li>
-
                 <li class="sub">
                     <div></div><a ui-sref="ticker"><span>ticker</span></a>
+                </li>
+                <li class="static">
+                    <span>extras</span>
+                </li>
+                <li class="sub">
+                    <div></div><a ui-sref="binary"><span>binary clock</span></a>
                 </li>
             </ol>
         </aside>
