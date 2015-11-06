@@ -1,12 +1,16 @@
-﻿<span ticker="myticker" format="HH:mm:ss:sss" trigger="false"></span>
+﻿<span ticker="myticker" format="HH:mm:ss:sss" trigger="true"></span>
 
 <div class="ticker-controls">
-    <button>start</button>
+    <button ng-click="start('myticker')">start</button>
 
-    <button>stop</button>
+    <button ng-click="stop('myticker')">stop</button>
 
-    <button>reset</button>
+    <button ng-click="lap('myticker')">lap</button>
 
-    <button>lap</button>
+    <button ng-click="reset('myticker')">reset</button>
 </div>
+
+<ol id="ticker-lap">
+    
+</ol>
 

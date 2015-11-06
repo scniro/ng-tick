@@ -55,9 +55,46 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('tickerCtrl', ['$scope', function ($scope) {
-    $scope.startTicker = function (handle) {
+
+    var lapOutput = angular.element(document.getElementById('ticker-lap'));
+
+    $scope.lap = function (handle) {
+        $scope[handle].lap();
+    }
+
+    $scope.reset = function (handle) {
+        $scope[handle].reset();
+    }
+
+    $scope.start = function (handle) {
         $scope[handle].start();
     }
+
+    $scope.stop = function (handle) {
+        $scope[handle].stop();
+    }
+
+    $scope.$on('myticker:reset', function (event) {
+        console.log('myticker:reset');
+    });
+
+    $scope.$on('myticker:lap', function (event, value) {
+        console.log('myticker:lap');
+
+        if (lapOutput.children().length < 3) {
+            lapOutput.append('<li>' + value + '</li>');
+        } else if (lapOutput.children().length === 3) {
+            lapOutput.append('<li>you get the idea...</li>');
+        }
+    });
+
+    $scope.$on('myticker:start', function (event) {
+        console.log('myticker:start');
+    });
+
+    $scope.$on('myticker:stop', function (event) {
+        console.log('myticker:stop');
+    });
 }]);
 
 app.controller('binaryCtrl', ['$scope', function ($scope) {

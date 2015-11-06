@@ -56,8 +56,14 @@
 
                     var relative = $filter('relativeTime');
 
+                    var moment = 0;
+
+                    var diff = new Tock();
+
                     var timer = new Tock({
                         callback: function () {
+
+                            moment = timer.lap();
 
                             var time = relative(timer.lap());
 
@@ -67,10 +73,49 @@
                         }
                     });
 
+                    scope.stop = function () {
+
+                        if (timer.go) {
+                            diff.stop();
+                            timer.stop();
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+                        }
+                    }
+
+                    scope.reset = function () {
+
+                            timer.reset();
+                            timer.start();
+                            timer.stop();
+                            diff.reset();
+                            diff.start();
+                            diff.stop();
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
+                    }
+
+                    scope.lap = function () {
+
+                        if (timer.go) {
+                            var lap = diff.lap();
+                            diff.reset();
+                            diff.start();
+
+                            if (timer.go && scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':lap', lap);
+                        }
+                    }
+
                     scope.start = function () {
 
-                        timer.reset();
-                        timer.start();
+                        if (!timer.go) {
+                            console.log('start');
+                            diff.start();
+                            timer.start(moment);
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':start');
+                        }
                     }
 
                     if (!scope.trigger)

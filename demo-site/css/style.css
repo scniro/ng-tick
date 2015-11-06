@@ -130,3 +130,7 @@ binary-clock {
     background-color: #CCE3EF; }
   binary-clock .bit.off {
     background-color: #98C0D6; }
+
+#ticker-lap {
+  list-style: none;
+  padding: 0; }
