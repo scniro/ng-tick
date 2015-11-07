@@ -85,14 +85,14 @@
 
                     scope.reset = function () {
 
-                            timer.reset();
-                            timer.start();
-                            timer.stop();
-                            diff.reset();
-                            diff.start();
-                            diff.stop();
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
+                        timer.reset();
+                        timer.start();
+                        timer.stop();
+                        diff.reset();
+                        diff.start();
+                        diff.stop();
+                        if (scope.handle)
+                            scope.$root[scope.handle].$emit(scope.handle + ':reset');
                     }
 
                     scope.lap = function () {
@@ -110,7 +110,6 @@
                     scope.start = function () {
 
                         if (!timer.go) {
-                            console.log('start');
                             diff.start();
                             timer.start(moment);
                             if (scope.handle)
@@ -118,19 +117,25 @@
                         }
                     }
 
+                    scope.$on('$destroy', function () {
+                        timer.stop();
+                        diff.stop();
+                    });
+
                     if (!scope.trigger)
                         scope.start();
                 }
             }
         }])
 
-        .directive('countdown', ['$filter', 'tickHelper', function ($filter, tickHelper) {
+        .directive('countdown', ['$filter', 'tickHelper', '$timeout', function ($filter, tickHelper, $timeout) {
             return {
                 scope: {
                     format: '@',
                     handle: '@countdown',
-                    duration: '=',
-                    trigger: '='
+                    duration: '@',
+                    trigger: '=',
+                    interval: '='
                 },
                 link: function (scope, elem, attrs) {
 
@@ -141,15 +146,20 @@
 
                     var relative = $filter('relativeTime');
 
+                    var moment;
+
+                    var duration = tickHelper.getDuration(JSON.parse(scope.duration.replace(/'/g, '"'))) || 0;
+
                     var timer = new Tock({
                         countdown: true,
-                        interval: 1,
+                        interval: scope.interval || 1,
                         callback: function () {
 
-                            //var round = (Math.ceil(timer.lap() / 1000) * 1000) >= 0 ? Math.ceil(timer.lap() / 1000) * 1000 : 0;
-                            //var time = relative(round);
+                            moment = timer.lap();
 
-                            var time = relative(timer.lap());
+                            var round = scope.interval ? (Math.ceil(timer.lap() / scope.interval) * scope.interval) >= 0 ? Math.ceil(timer.lap() / scope.interval) * scope.interval : 0 : timer.lap();
+
+                            var time = relative(round);
 
                             time = filter(time, scope.format);
 
@@ -158,17 +168,47 @@
                         complete: function () {
                             if (scope.handle)
                                 scope.$root[scope.handle].$emit(scope.handle + ':end');
+
+                            moment = null;
                         }
                     });
 
-                    scope.start = function () {
-
+                    scope.reset = function () {
                         timer.stop();
-
-                        var duration = tickHelper.getDuration(scope.duration);
-
+                        timer.reset();
                         timer.start(duration);
+
+                        if (scope.handle)
+                            scope.$root[scope.handle].$emit(scope.handle + ':reset');
                     }
+
+                    scope.resume = function () {
+                        if (!timer.go && moment)
+                            timer.start(moment);
+
+                        if (scope.handle)
+                            scope.$root[scope.handle].$emit(scope.handle + ':resume');
+                    }
+
+                    scope.start = function () {
+                        if (!timer.go)
+                            timer.start(duration);
+
+                        if (scope.handle)
+                            scope.$root[scope.handle].$emit(scope.handle + ':start');
+                    }
+
+                    scope.stop = function () {
+                        if (timer.go)
+                            timer.stop();
+
+                        if (scope.handle)
+                            scope.$root[scope.handle].$emit(scope.handle + ':stop');
+                    }
+
+                    scope.$on('$destroy', function () {
+                        timer.stop();
+                    });
 
                     if (!scope.trigger)
                         scope.start();
@@ -309,7 +349,7 @@
 
                 var now = new Date();
 
-                now.setMilliseconds(now.getMilliseconds() + (chunk.ms || 0));
+                now.setMilliseconds(now.getMilliseconds() + (chunk.ms ? chunk.ms : 0));
                 now.setSeconds(now.getSeconds() + (chunk.s || 0));
                 now.setMinutes(now.getMinutes() + (chunk.m || 0));
                 now.setHours(now.getHours() + (chunk.h || 0));
@@ -324,7 +364,7 @@
 
         .filter('relativeTime', [function () {
             return function (ms) {
-                return new Date(1970, 0, 1).setMilliseconds(ms);
+                return new Date(1970, 0, 1, 0).setMilliseconds(ms);
             };
         }]);
 }

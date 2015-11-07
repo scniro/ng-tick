@@ -1,1 +1,9 @@
-﻿<span countdown="mycountdown" format="HH:mm:ss:sss" duration="{ 'h': 0, 'm': 0, 's': 3 }" trigger="false"></span>
+﻿<span countdown="mycountdown" format="HH:mm:ss:sss" duration="{ 'h': 0, 'm': 0, 's': 5 }"  trigger="true" interval="10"></span>
+
+<button ng-click="start('mycountdown')">start</button>
+
+<button ng-click="resume('mycountdown')">resume</button>
+
+<button ng-click="reset('mycountdown')">reset</button>
+
+<button ng-click="stop('mycountdown')">stop</button>

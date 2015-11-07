@@ -45,9 +45,38 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('countdownCtrl', ['$scope', function ($scope) {
-    $scope.startCountdown = function (handle) {
+
+    $scope.reset = function (handle) {
+        $scope[handle].reset();
+    }
+
+    $scope.resume = function (handle) {
+        $scope[handle].resume();
+    }
+
+    $scope.start = function (handle) {
         $scope[handle].start();
     }
+
+    $scope.stop = function(handle) {
+        $scope[handle].stop();
+    }
+
+    $scope.$on('mycountdown:start', function (event) {
+        console.log('mycountdown:start');
+    });
+
+    $scope.$on('mycountdown:stop', function (event) {
+        console.log('mycountdown:stop');
+    });
+
+    $scope.$on('mycountdown:reset', function (event) {
+        console.log('mycountdown:reset');
+    });
+
+    $scope.$on('mycountdown:resume', function (event) {
+        console.log('mycountdown:resume');
+    });
 
     $scope.$on('mycountdown:end', function (event) {
         console.log('mycountdown:end');
