@@ -128,7 +128,7 @@
             }
         }])
 
-        .directive('countdown', ['$filter', 'tickHelper', '$timeout', function ($filter, tickHelper, $timeout) {
+        .directive('countdown', ['$filter', 'tickHelper', '$timeout', 'tickEngine', function ($filter, tickHelper, $timeout, tickEngine) {
             return {
                 scope: {
                     format: '@',
@@ -366,7 +366,50 @@
             return function (ms) {
                 return new Date(1970, 0, 1, 0).setMilliseconds(ms);
             };
-        }]);
+        }])
+
+    .factory('tickEngine', [function () {
+
+        function instance(options) {
+
+            var self = this;
+
+            var start = Date.now();
+            var time = 0;
+            var interval = 1000;
+
+            self.ticking = false;
+
+            function tick() {
+
+                time += interval;
+
+                self.onTick(time);
+
+                var diff = (Date.now() - start) - time;
+
+                if (self.ticking)
+                    setTimeout(tick, (interval - diff), self);
+            }
+
+            this.onTick = options.onTick || function () { };
+
+            this.start = function () {
+                self.ticking = true;
+                setTimeout(tick, interval, self);
+            }
+
+            this.stop = function () {
+                self.ticking = false;
+            }
+        }
+
+        return {
+            'init': function (options) {
+                return new instance(options);
+            }
+        }
+    }]);
 }
 
 (function () {
