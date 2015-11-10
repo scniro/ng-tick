@@ -107,11 +107,11 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         console.log('myticker:reset');
     });
 
-    $scope.$on('myticker:lap', function (event, value) {
+    $scope.$on('myticker:lap', function (event, response) {
         console.log('myticker:lap');
 
         if (lapOutput.children().length < 3) {
-            lapOutput.append('<li>' + value + '</li>');
+            lapOutput.append('<li>lap: ' + response.lap + ' ms: ' + response.elapsed + '</li>');
         } else if (lapOutput.children().length === 3) {
             lapOutput.append('<li>you get the idea...</li>');
         }

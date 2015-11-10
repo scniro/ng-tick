@@ -2,7 +2,7 @@
 
     angular.module('ngTick', [])
         .directive('clock', [
-            '$filter', function($filter) {
+            '$filter', function ($filter) {
 
                 return {
                     scope: {
@@ -10,7 +10,7 @@
                         handle: '@clock',
                         trigger: '='
                     },
-                    link: function(scope, elem, attrs) {
+                    link: function (scope, elem, attrs) {
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -20,7 +20,7 @@
                         var start = new Date().getTime();
 
                         var timer = new Tock({
-                            callback: function() {
+                            callback: function () {
 
                                 var tick = timer.lap();
 
@@ -30,7 +30,7 @@
                             }
                         });
 
-                        scope.start = function() {
+                        scope.start = function () {
                             if (!timer.go)
                                 timer.start();
                         }
@@ -41,97 +41,79 @@
                 }
             }
         ])
-        .directive('ticker', [
-            '$filter', function($filter) {
-                return {
-                    scope: {
-                        format: '@',
-                        handle: '@ticker',
-                        trigger: '='
-                    },
-                    link: function(scope, elem, attrs) {
+        .directive('ticker', ['$filter', 'tickEngine', function ($filter, tickEngine) {
+            return {
+                scope: {
+                    format: '@',
+                    handle: '@ticker',
+                    trigger: '='
+                },
+                link: function (scope, elem, attrs) {
+
+                    var relative = $filter('relativeTime');
+
+                    var filter = $filter('date');
+
+                    var engine = tickEngine.init({
+                        onTick: function (ms) {
+
+                            var time = relative(ms);
+                            time = scope.format ? filter(time, scope.format) : time;
+                            elem.text(time);
+                        },
+                        onLap: function (lap, ms) {
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':lap', { 'lap': lap, 'elapsed': ms });
+                        }
+                    });
+
+                    if (scope.handle)
+                        scope.$root[scope.handle] = scope;
+
+                    scope.start = function () {
+
+                        if (scope.handle && !engine.ticking)
+                            scope.$root[scope.handle].$emit(scope.handle + ':start');
+
+                        engine.start();
+                    }
+
+                    scope.stop = function () {
+
+                        if (scope.handle && engine.ticking)
+                            scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                        engine.stop();
+                    }
+
+                    scope.reset = function () {
 
                         if (scope.handle)
-                            scope.$root[scope.handle] = scope;
+                            scope.$root[scope.handle].$emit(scope.handle + ':reset');
 
-                        var filter = $filter('date');
-
-                        var relative = $filter('relativeTime');
-
-                        var moment = 0;
-
-                        var diff = new Tock();
-
-                        var timer = new Tock({
-                            callback: function() {
-
-                                moment = timer.lap();
-
-                                var time = relative(timer.lap());
-
-                                time = scope.format ? filter(time, scope.format) : timer.lap();
-
-                                elem.text(time);
-                            }
-                        });
-
-                        scope.stop = function() {
-
-                            if (timer.go) {
-                                diff.stop();
-                                timer.stop();
-                                if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':stop');
-                            }
-                        }
-
-                        scope.reset = function() {
-
-                            timer.reset();
-                            timer.start();
-                            timer.stop();
-                            diff.reset();
-                            diff.start();
-                            diff.stop();
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
-                        }
-
-                        scope.lap = function() {
-
-                            if (timer.go) {
-                                var lap = diff.lap();
-                                diff.reset();
-                                diff.start();
-
-                                if (timer.go && scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':lap', lap);
-                            }
-                        }
-
-                        scope.start = function() {
-
-                            if (!timer.go) {
-                                diff.start();
-                                timer.start(moment);
-                                if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':start');
-                            }
-                        }
-
-                        scope.$on('$destroy', function() {
-                            timer.stop();
-                            diff.stop();
-                        });
-
-                        if (!scope.trigger)
-                            scope.start();
+                        engine.reset();
                     }
+
+                    scope.lap = function () {
+                        engine.lap();
+                    }
+
+                    scope.$on('$destroy', function () {
+                        
+                        if (scope.handle && engine.ticking)
+                            scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                        engine.stop();
+                    });
+
+                    if (!scope.trigger)
+                        scope.start();
                 }
             }
+        }
         ])
         .directive('countdown', [
-            '$filter', 'tickHelper', '$timeout', 'tickEngine', function($filter, tickHelper, $timeout, tickEngine) {
+            '$filter', 'tickHelper', '$timeout', 'tickEngine', function ($filter, tickHelper, $timeout, tickEngine) {
                 return {
                     scope: {
                         format: '@',
@@ -142,7 +124,7 @@
                     },
                     link: function (scope, elem, attrs) {
 
-                        console.log(tickEngine.init());
+                        console.log('countdown');
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -158,7 +140,7 @@
                         var timer = new Tock({
                             countdown: true,
                             interval: scope.interval || 1,
-                            callback: function() {
+                            callback: function () {
 
                                 moment = timer.lap();
 
@@ -170,7 +152,7 @@
 
                                 elem.text(time);
                             },
-                            complete: function() {
+                            complete: function () {
                                 if (scope.handle)
                                     scope.$root[scope.handle].$emit(scope.handle + ':end');
 
@@ -178,7 +160,7 @@
                             }
                         });
 
-                        scope.reset = function() {
+                        scope.reset = function () {
                             timer.stop();
                             timer.reset();
                             timer.start(duration);
@@ -187,7 +169,7 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':reset');
                         }
 
-                        scope.resume = function() {
+                        scope.resume = function () {
                             if (!timer.go && moment)
                                 timer.start(moment);
 
@@ -195,7 +177,7 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':resume');
                         }
 
-                        scope.start = function() {
+                        scope.start = function () {
                             if (!timer.go)
                                 timer.start(duration);
 
@@ -203,7 +185,7 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':start');
                         }
 
-                        scope.stop = function() {
+                        scope.stop = function () {
                             if (timer.go)
                                 timer.stop();
 
@@ -211,7 +193,7 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':stop');
                         }
 
-                        scope.$on('$destroy', function() {
+                        scope.$on('$destroy', function () {
                             timer.stop();
                         });
 
@@ -222,7 +204,7 @@
             }
         ])
         .directive('binaryClock', [
-            '$timeout', function($timeout) {
+            '$timeout', function ($timeout) {
                 return {
                     restrict: 'E',
                     template:
@@ -288,9 +270,9 @@
                             '</table>' +
                             '</div>' +
                             '</div>',
-                    link: function(scope, elem, attrs) {
+                    link: function (scope, elem, attrs) {
 
-                        $timeout(function() {
+                        $timeout(function () {
                             function setBit(field, value) {
 
                                 var ele = document.getElementById(field);
@@ -346,7 +328,7 @@
                             var timer = new Tock({
                                 countdown: true,
                                 interval: 100,
-                                callback: function() {
+                                callback: function () {
                                     tick();
                                 }
                             });
@@ -360,7 +342,7 @@
             }
         ])
         .factory('tickHelper', [
-            function() {
+            function () {
 
                 function getDuration(chunk) {
 
@@ -380,13 +362,13 @@
             }
         ])
         .filter('relativeTime', [
-            function() {
-                return function(ms) {
+            function () {
+                return function (ms) {
                     return new Date(1970, 0, 1, 0).setMilliseconds(ms);
                 };
             }
         ])
-        .factory('tickEngine', function() {
+        .factory('tickEngine', function () {
 
             function instance(options) {
 
@@ -395,32 +377,48 @@
                 var self = this;
                 var start;
                 var time;
-                var interval = 100;
+                var interval = options.interval || 10;
                 var thread;
                 var phantom = 0;
+                var lap = false;
+                var circuit = 0;
+                var lapped = 0;
 
                 self.ticking = false;
 
                 function tick() {
+
                     if (self.ticking) {
                         time += interval;
+                        lapped += interval;
+
+                        if (lap) {
+                            lap = false;
+                            self.onLap(circuit, lapped);
+                            lapped = 0;
+                        }
+
                         self.onTick(time);
                         var diff = (Date.now() - start) - time;
                         setTimeout(tick, (interval - diff));
                     }
                 }
 
-                this.onTick = options.onTick || function() {};
+                this.onTick = options.onTick || function () { };
 
-                this.reset = function() {
+                this.onLap = options.onLap || function () { };
+
+                this.reset = function () {
                     clearTimeout(thread);
                     self.ticking = false;
                     phantom = 0;
+                    lapped = 0;
+                    circuit = 0;
                     self.onTick(0);
                     return this;
                 }
 
-                this.start = function() {
+                this.start = function () {
                     if (!self.ticking) {
                         time = phantom > 0 ? phantom : 0;
                         start = Date.now() - time;
@@ -431,15 +429,28 @@
                     return this;
                 }
 
-                this.stop = function() {
-                    phantom = time;
-                    self.ticking = false;
+                this.stop = function () {
+                    if (self.ticking) {
+                        phantom = time;
+                        self.ticking = false;
+                        lapped = 0;
+                    }
+                    
+                    return this;
+                }
+
+                this.lap = function () {
+                    if (self.ticking) {
+                        lap = true;
+                        circuit += 1;
+                    }
+                    
                     return this;
                 }
             }
 
             return {
-                'init': function(options) {
+                'init': function (options) {
                     return new instance(options);
                 }
             }
