@@ -143,7 +143,18 @@
                         });
 
                         scope.start = function () {
+
+                            if (scope.handle && !countdown.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':start');
+
                             countdown.start(scope.duration);
+                        }
+
+                        scope.stop = function () {
+                            if (scope.handle && countdown.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                            countdown.stop();
                         }
 
                         if (!scope.trigger)
@@ -478,31 +489,41 @@
                 var interval = options.interval || 10;
                 var start;
                 var time;
-                var from;
+                var from = 0;
 
                 self.ticking = false;
 
                 options = options || {};
 
                 function tick() {
-                    time += interval;
-                    from -= interval;
-                    self.onTick(from);
-                    var diff = (Date.now() - start) - time;
-                    setTimeout(tick, (interval - diff));
+                    if (self.ticking) {
+                        time += interval;
+                        from -= interval;
+                        self.onTick(from);
+                        var diff = (Date.now() - start) - time;
+                        setTimeout(tick, (interval - diff));
+                    }
                 }
 
                 this.onTick = options.onTick || function () { };
 
                 this.start = function (duration) {
 
-                    from = tickHelper.getDuration(duration) || 0;
+                    from = from > 0 ? from : tickHelper.getDuration(duration) || 0;
 
                     if (!self.ticking) {
                         time = 0;
                         start = Date.now();
                         self.ticking = true;
                         thread = setTimeout(tick, interval);
+                    }
+
+                    return this;
+                }
+
+                this.stop = function () {
+                    if (self.ticking) {
+                        self.ticking = false;
                     }
 
                     return this;
