@@ -103,10 +103,6 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         $scope[handle].stop();
     }
 
-    $scope.$on('myticker:reset', function (event) {
-        console.log('myticker:reset');
-    });
-
     $scope.$on('myticker:lap', function (event, response) {
         console.log('myticker:lap');
 
@@ -115,6 +111,10 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         } else if (lapOutput.children().length === 3) {
             lapOutput.append('<li>you get the idea...</li>');
         }
+    });
+
+    $scope.$on('myticker:reset', function (event) {
+        console.log('myticker:reset');
     });
 
     $scope.$on('myticker:start', function (event) {
