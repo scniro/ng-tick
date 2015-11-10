@@ -46,6 +46,13 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
 
 app.controller('countdownCtrl', ['$scope', function ($scope) {
 
+    $scope.duration = {
+        'h': 1,
+        'm': 30,
+        's': 45,
+        'ms': 500
+    };
+
     $scope.reset = function (handle) {
         $scope[handle].reset();
     }

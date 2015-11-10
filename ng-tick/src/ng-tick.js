@@ -99,7 +99,7 @@
                     }
 
                     scope.$on('$destroy', function () {
-                        
+
                         if (scope.handle && timer.ticking)
                             scope.$root[scope.handle].$emit(scope.handle + ':stop');
 
@@ -118,15 +118,33 @@
                     scope: {
                         format: '@',
                         handle: '@countdown',
-                        duration: '@',
+                        duration: '=',
                         trigger: '=',
                         interval: '='
                     },
                     link: function (scope, elem, attrs) {
 
-                        var countdown = engine.countdown();
+                        var relative = $filter('relativeTime');
 
-                        console.log(countdown);
+                        var filter = $filter('date');
+
+                        if (scope.handle)
+                            scope.$root[scope.handle] = scope;
+
+                        var countdown = engine.countdown({
+                            onTick: function (ms) {
+
+                                var time = relative(ms);
+
+                                time = filter(time, scope.format);
+
+                                elem.text(time);
+                            }
+                        });
+
+                        scope.start = function () {
+                            countdown.start(scope.duration);
+                        }
 
                         if (!scope.trigger)
                             scope.start();
@@ -372,7 +390,7 @@
                 };
             }
         ])
-        .factory('engine', function () {
+        .factory('engine', function (tickHelper) {
 
             function timer(options) {
 
@@ -439,7 +457,7 @@
                         self.ticking = false;
                         lapped = 0;
                     }
-                    
+
                     return this;
                 }
 
@@ -448,14 +466,47 @@
                         lap = true;
                         circuit += 1;
                     }
-                    
+
                     return this;
                 }
             }
 
             function countdown(options) {
 
+                var self = this;
+                var thread;
+                var interval = options.interval || 10;
+                var start;
+                var time;
+                var from;
+
+                self.ticking = false;
+
                 options = options || {};
+
+                function tick() {
+                    time += interval;
+                    from -= interval;
+                    self.onTick(from);
+                    var diff = (Date.now() - start) - time;
+                    setTimeout(tick, (interval - diff));
+                }
+
+                this.onTick = options.onTick || function () { };
+
+                this.start = function (duration) {
+
+                    from = tickHelper.getDuration(duration) || 0;
+
+                    if (!self.ticking) {
+                        time = 0;
+                        start = Date.now();
+                        self.ticking = true;
+                        thread = setTimeout(tick, interval);
+                    }
+
+                    return this;
+                }
 
                 this.ticking = false;
             }
@@ -467,7 +518,7 @@
                 'countdown': function (options) {
                     return new countdown(options);
                 }
-        }
+            }
         });
 }
 
