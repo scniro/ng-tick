@@ -54,7 +54,7 @@
 
                     var filter = $filter('date');
 
-                    var timer = engine.tick({
+                    var timer = engine.timer({
                         onTick: function (ms) {
 
                             var time = relative(ms);
@@ -66,6 +66,8 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':lap', { 'lap': lap, 'elapsed': ms });
                         }
                     });
+
+                    console.log(timer);
 
                     if (scope.handle)
                         scope.$root[scope.handle] = scope;
@@ -374,7 +376,7 @@
         ])
         .factory('engine', function () {
 
-            function instance(options) {
+            function timer(options) {
 
                 options = options || {};
 
@@ -453,11 +455,21 @@
                 }
             }
 
-            return {
-                'tick': function (options) {
-                    return new instance(options);
-                }
+            function countdown(options) {
+
+                options = options || {};
+
+                this.ticking = false;
             }
+
+            return {
+                'timer': function (options) {
+                    return new timer(options);
+                },
+                'countdown': function (options) {
+                    return new countdown(options);
+                }
+        }
         });
 }
 
