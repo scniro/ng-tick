@@ -41,7 +41,7 @@
                 }
             }
         ])
-        .directive('ticker', ['$filter', 'tickEngine', function ($filter, tickEngine) {
+        .directive('ticker', ['$filter', 'engine', function ($filter, engine) {
             return {
                 scope: {
                     format: '@',
@@ -54,7 +54,7 @@
 
                     var filter = $filter('date');
 
-                    var engine = tickEngine.init({
+                    var timer = engine.tick({
                         onTick: function (ms) {
 
                             var time = relative(ms);
@@ -72,18 +72,18 @@
 
                     scope.start = function () {
 
-                        if (scope.handle && !engine.ticking)
+                        if (scope.handle && !timer.ticking)
                             scope.$root[scope.handle].$emit(scope.handle + ':start');
 
-                        engine.start();
+                        timer.start();
                     }
 
                     scope.stop = function () {
 
-                        if (scope.handle && engine.ticking)
+                        if (scope.handle && timer.ticking)
                             scope.$root[scope.handle].$emit(scope.handle + ':stop');
 
-                        engine.stop();
+                        timer.stop();
                     }
 
                     scope.reset = function () {
@@ -91,19 +91,19 @@
                         if (scope.handle)
                             scope.$root[scope.handle].$emit(scope.handle + ':reset');
 
-                        engine.reset();
+                        timer.reset();
                     }
 
                     scope.lap = function () {
-                        engine.lap();
+                        timer.lap();
                     }
 
                     scope.$on('$destroy', function () {
                         
-                        if (scope.handle && engine.ticking)
+                        if (scope.handle && timer.ticking)
                             scope.$root[scope.handle].$emit(scope.handle + ':stop');
 
-                        engine.stop();
+                        timer.stop();
                     });
 
                     if (!scope.trigger)
@@ -113,7 +113,7 @@
         }
         ])
         .directive('countdown', [
-            '$filter', 'tickHelper', '$timeout', 'tickEngine', function ($filter, tickHelper, $timeout, tickEngine) {
+            '$filter', 'tickHelper', '$timeout', 'engine', function ($filter, tickHelper, $timeout, engine) {
                 return {
                     scope: {
                         format: '@',
@@ -124,81 +124,85 @@
                     },
                     link: function (scope, elem, attrs) {
 
-                        console.log('countdown');
+                        var countdown = engine.countdown();
 
-                        if (scope.handle)
-                            scope.$root[scope.handle] = scope;
-
-                        var filter = $filter('date');
-
-                        var relative = $filter('relativeTime');
-
-                        var moment;
-
-                        var duration = tickHelper.getDuration(JSON.parse(scope.duration.replace(/'/g, '"'))) || 0;
-
-                        var timer = new Tock({
-                            countdown: true,
-                            interval: scope.interval || 1,
-                            callback: function () {
-
-                                moment = timer.lap();
-
-                                var round = scope.interval ? (Math.ceil(timer.lap() / scope.interval) * scope.interval) >= 0 ? Math.ceil(timer.lap() / scope.interval) * scope.interval : 0 : timer.lap();
-
-                                var time = relative(round);
-
-                                time = filter(time, scope.format);
-
-                                elem.text(time);
-                            },
-                            complete: function () {
-                                if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':end');
-
-                                moment = null;
-                            }
-                        });
-
-                        scope.reset = function () {
-                            timer.stop();
-                            timer.reset();
-                            timer.start(duration);
-
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
-                        }
-
-                        scope.resume = function () {
-                            if (!timer.go && moment)
-                                timer.start(moment);
-
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':resume');
-                        }
-
-                        scope.start = function () {
-                            if (!timer.go)
-                                timer.start(duration);
-
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':start');
-                        }
-
-                        scope.stop = function () {
-                            if (timer.go)
-                                timer.stop();
-
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
-                        }
-
-                        scope.$on('$destroy', function () {
-                            timer.stop();
-                        });
+                        console.log(countdown);
 
                         if (!scope.trigger)
                             scope.start();
+
+                        //console.log('countdown');
+
+                        //if (scope.handle)
+                        //    scope.$root[scope.handle] = scope;
+
+                        //var filter = $filter('date');
+
+                        //var relative = $filter('relativeTime');
+
+                        //var moment;
+
+                        //var duration = tickHelper.getDuration(JSON.parse(scope.duration.replace(/'/g, '"'))) || 0;
+
+                        //var timer = new Tock({
+                        //    countdown: true,
+                        //    interval: scope.interval || 1,
+                        //    callback: function () {
+
+                        //        moment = timer.lap();
+
+                        //        var round = scope.interval ? (Math.ceil(timer.lap() / scope.interval) * scope.interval) >= 0 ? Math.ceil(timer.lap() / scope.interval) * scope.interval : 0 : timer.lap();
+
+                        //        var time = relative(round);
+
+                        //        time = filter(time, scope.format);
+
+                        //        elem.text(time);
+                        //    },
+                        //    complete: function () {
+                        //        if (scope.handle)
+                        //            scope.$root[scope.handle].$emit(scope.handle + ':end');
+
+                        //        moment = null;
+                        //    }
+                        //});
+
+                        //scope.reset = function () {
+                        //    timer.stop();
+                        //    timer.reset();
+                        //    timer.start(duration);
+
+                        //    if (scope.handle)
+                        //        scope.$root[scope.handle].$emit(scope.handle + ':reset');
+                        //}
+
+                        //scope.resume = function () {
+                        //    if (!timer.go && moment)
+                        //        timer.start(moment);
+
+                        //    if (scope.handle)
+                        //        scope.$root[scope.handle].$emit(scope.handle + ':resume');
+                        //}
+
+                        //scope.start = function () {
+                        //    if (!timer.go)
+                        //        timer.start(duration);
+
+                        //    if (scope.handle)
+                        //        scope.$root[scope.handle].$emit(scope.handle + ':start');
+                        //}
+
+                        //scope.stop = function () {
+                        //    if (timer.go)
+                        //        timer.stop();
+
+                        //    if (scope.handle)
+                        //        scope.$root[scope.handle].$emit(scope.handle + ':stop');
+                        //}
+
+                        //scope.$on('$destroy', function () {
+                        //    timer.stop();
+                        //});
                     }
                 }
             }
@@ -368,7 +372,7 @@
                 };
             }
         ])
-        .factory('tickEngine', function () {
+        .factory('engine', function () {
 
             function instance(options) {
 
@@ -450,7 +454,7 @@
             }
 
             return {
-                'init': function (options) {
+                'tick': function (options) {
                     return new instance(options);
                 }
             }
