@@ -67,8 +67,6 @@
                         }
                     });
 
-                    console.log(timer);
-
                     if (scope.handle)
                         scope.$root[scope.handle] = scope;
 
