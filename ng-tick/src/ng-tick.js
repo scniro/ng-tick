@@ -2,7 +2,7 @@
 
     angular.module('ngTick', [])
         .directive('clock', [
-            '$filter', function ($filter) {
+            '$filter', 'engine', function ($filter, engine) {
 
                 return {
                     scope: {
@@ -19,20 +19,18 @@
 
                         var start = new Date().getTime();
 
-                        var timer = new Tock({
-                            callback: function () {
+                        var clock = engine.timer({
+                            onTick: function (ms) {
 
-                                var tick = timer.lap();
-
-                                var date = new Date(start + tick);
+                                var date = new Date(start + ms);
 
                                 scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
                             }
                         });
 
                         scope.start = function () {
-                            if (!timer.go)
-                                timer.start();
+                            if (!clock.go)
+                                clock.start();
                         }
 
                         if (!scope.trigger)
@@ -145,6 +143,10 @@
                         scope.reset = function() {
                             if (scope.handle)
                                 scope.$root[scope.handle].$emit(scope.handle + ':reset');
+
+                            countdown.reset(scope.duration);
+
+                            return this;
                         }
 
                         scope.start = function () {
@@ -152,6 +154,8 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':start');
 
                             countdown.start(scope.duration);
+
+                            return this;
                         }
 
                         scope.stop = function () {
@@ -159,6 +163,8 @@
                                 scope.$root[scope.handle].$emit(scope.handle + ':stop');
 
                             countdown.stop();
+
+                            return this;
                         }
 
                         if (!scope.trigger)
@@ -168,7 +174,7 @@
             }
         ])
         .directive('binaryClock', [
-            '$timeout', function ($timeout) {
+            '$timeout', 'engine', function ($timeout, engine) {
                 return {
                     restrict: 'E',
                     template:
@@ -289,17 +295,14 @@
 
                             tick();
 
-                            var timer = new Tock({
-                                countdown: true,
+                            var timer = engine.timer({
                                 interval: 100,
-                                callback: function () {
+                                onTick: function (ms) {
                                     tick();
                                 }
                             });
 
-                            timer.start(Date.now());
-
-                            //self.setInterval(tick, 500); // - mayhaps?
+                            timer.start();
                         });
                     }
                 }
@@ -383,6 +386,7 @@
                 }
 
                 this.start = function () {
+
                     if (!self.ticking) {
                         time = phantom > 0 ? phantom : 0;
                         start = Date.now() - time;
@@ -413,6 +417,37 @@
                 }
             }
 
+            function clock(options) {
+
+                options = options || {};
+
+                var self = this;
+                var start;
+                var time;
+                var thread;
+                var interval = options.interval || 10;
+
+                function tick() {
+                    if (self.ticking) {
+                        time += interval;
+                        self.onTick(from);
+                        var diff = (Date.now() - start) - time;
+                        setTimeout(tick, (interval - diff));
+                    }
+                }
+
+                this.start = function () {
+                    
+                    if (!self.ticking) {
+                        start = Date.now();
+                        self.ticking = true;
+                        thread = setTimeout(tick, interval);
+                    }
+
+                    return this;
+                }
+            }
+
             function countdown(options) {
 
                 var self = this;
@@ -437,6 +472,17 @@
                 }
 
                 this.onTick = options.onTick || function () { };
+
+                this.reset = function (duration) {
+
+                    from = tickHelper.getDuration(duration) || 0;
+
+                    self.ticking = false;
+
+                    self.onTick(from);
+
+                    return this;
+                }
 
                 this.start = function (duration) {
 
@@ -469,6 +515,9 @@
                 },
                 'countdown': function (options) {
                     return new countdown(options);
+                },
+                'clock': function(options) {
+                    return new clock(options);
                 }
             }
         });

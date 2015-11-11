@@ -61,7 +61,7 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
         $scope[handle].start();
     }
 
-    $scope.stop = function(handle) {
+    $scope.stop = function (handle) {
         $scope[handle].stop();
     }
 
@@ -128,4 +128,3 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
 app.controller('binaryCtrl', ['$scope', function ($scope) {
 
 }]);
-
