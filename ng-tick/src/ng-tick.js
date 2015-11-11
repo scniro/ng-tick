@@ -74,6 +74,8 @@
                             scope.$root[scope.handle].$emit(scope.handle + ':start');
 
                         timer.start();
+
+                        return this;
                     }
 
                     scope.stop = function () {
@@ -82,6 +84,8 @@
                             scope.$root[scope.handle].$emit(scope.handle + ':stop');
 
                         timer.stop();
+
+                        return this;
                     }
 
                     scope.reset = function () {
@@ -90,10 +94,14 @@
                             scope.$root[scope.handle].$emit(scope.handle + ':reset');
 
                         timer.reset();
+
+                        return this;
                     }
 
                     scope.lap = function () {
                         timer.lap();
+
+                        return this;
                     }
 
                     scope.$on('$destroy', function () {
