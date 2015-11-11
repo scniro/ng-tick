@@ -142,8 +142,12 @@
                             }
                         });
 
-                        scope.start = function () {
+                        scope.reset = function() {
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
+                        }
 
+                        scope.start = function () {
                             if (scope.handle && !countdown.ticking)
                                 scope.$root[scope.handle].$emit(scope.handle + ':start');
 
@@ -159,79 +163,6 @@
 
                         if (!scope.trigger)
                             scope.start();
-
-                        //console.log('countdown');
-
-                        //if (scope.handle)
-                        //    scope.$root[scope.handle] = scope;
-
-                        //var filter = $filter('date');
-
-                        //var relative = $filter('relativeTime');
-
-                        //var moment;
-
-                        //var duration = tickHelper.getDuration(JSON.parse(scope.duration.replace(/'/g, '"'))) || 0;
-
-                        //var timer = new Tock({
-                        //    countdown: true,
-                        //    interval: scope.interval || 1,
-                        //    callback: function () {
-
-                        //        moment = timer.lap();
-
-                        //        var round = scope.interval ? (Math.ceil(timer.lap() / scope.interval) * scope.interval) >= 0 ? Math.ceil(timer.lap() / scope.interval) * scope.interval : 0 : timer.lap();
-
-                        //        var time = relative(round);
-
-                        //        time = filter(time, scope.format);
-
-                        //        elem.text(time);
-                        //    },
-                        //    complete: function () {
-                        //        if (scope.handle)
-                        //            scope.$root[scope.handle].$emit(scope.handle + ':end');
-
-                        //        moment = null;
-                        //    }
-                        //});
-
-                        //scope.reset = function () {
-                        //    timer.stop();
-                        //    timer.reset();
-                        //    timer.start(duration);
-
-                        //    if (scope.handle)
-                        //        scope.$root[scope.handle].$emit(scope.handle + ':reset');
-                        //}
-
-                        //scope.resume = function () {
-                        //    if (!timer.go && moment)
-                        //        timer.start(moment);
-
-                        //    if (scope.handle)
-                        //        scope.$root[scope.handle].$emit(scope.handle + ':resume');
-                        //}
-
-                        //scope.start = function () {
-                        //    if (!timer.go)
-                        //        timer.start(duration);
-
-                        //    if (scope.handle)
-                        //        scope.$root[scope.handle].$emit(scope.handle + ':start');
-                        //}
-
-                        //scope.stop = function () {
-                        //    if (timer.go)
-                        //        timer.stop();
-
-                        //    if (scope.handle)
-                        //        scope.$root[scope.handle].$emit(scope.handle + ':stop');
-                        //}
-
-                        //scope.$on('$destroy', function () {
-                        //    timer.stop();
-                        //});
                     }
                 }
             }
