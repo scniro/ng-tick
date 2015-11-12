@@ -17,12 +17,10 @@
 
                         var filter = $filter('date');
 
-                        var start = new Date().getTime();
-
                         var clock = engine.timer({
                             onTick: function (ms) {
 
-                                var date = new Date(start + ms);
+                                var date = Date.now();
 
                                 scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
                             }
@@ -32,6 +30,14 @@
                             if (!clock.go)
                                 clock.start();
                         }
+
+                        scope.$on('$destroy', function () {
+
+                            if (scope.handle && clock.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                            clock.stop();
+                        });
 
                         if (!scope.trigger)
                             scope.start();
@@ -148,7 +154,7 @@
                             }
                         });
 
-                        scope.reset = function() {
+                        scope.reset = function () {
                             if (scope.handle)
                                 scope.$root[scope.handle].$emit(scope.handle + ':reset');
 
@@ -174,6 +180,14 @@
 
                             return this;
                         }
+
+                        scope.$on('$destroy', function () {
+
+                            if (scope.handle && countdown.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                            countdown.stop();
+                        });
 
                         if (!scope.trigger)
                             scope.start();
@@ -350,14 +364,11 @@
                 options = options || {};
 
                 var self = this;
-                var start;
-                var time;
+                var start, time, thread, phantom;
                 var interval = options.interval || 10;
-                var thread;
-                var phantom = 0;
                 var lap = false;
-                var circuit = 0;
                 var lapped = 0;
+                var circuit = 0;
 
                 self.ticking = false;
 
@@ -430,9 +441,7 @@
                 options = options || {};
 
                 var self = this;
-                var start;
-                var time;
-                var thread;
+                var start, time, thread;
                 var interval = options.interval || 10;
 
                 function tick() {
@@ -445,7 +454,7 @@
                 }
 
                 this.start = function () {
-                    
+
                     if (!self.ticking) {
                         start = Date.now();
                         self.ticking = true;
@@ -459,11 +468,8 @@
             function countdown(options) {
 
                 var self = this;
-                var thread;
+                var start, time, thread, from;
                 var interval = options.interval || 10;
-                var start;
-                var time;
-                var from = 0;
 
                 self.ticking = false;
 
@@ -524,7 +530,7 @@
                 'countdown': function (options) {
                     return new countdown(options);
                 },
-                'clock': function(options) {
+                'clock': function (options) {
                     return new clock(options);
                 }
             }
