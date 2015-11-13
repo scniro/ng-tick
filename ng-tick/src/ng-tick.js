@@ -8,9 +8,12 @@
                     scope: {
                         format: '@',
                         handle: '@clock',
-                        trigger: '='
+                        trigger: '=',
+                        offset: '@'
                     },
                     link: function (scope, elem, attrs) {
+
+                        var offset = scope.offset ? parseInt(scope.offset) / 100 : 0;
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -20,8 +23,8 @@
                         var clock = engine.timer({
                             onTick: function (ms) {
 
-                                var date = Date.now();
-
+                                var diff = scope.offset ? offset * 60 + new Date().getTimezoneOffset() : 0;
+                                var date = scope.offset ? new Date(Date.now() + (diff * 60 * 1000)) : Date.now();
                                 scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
                             }
                         });
