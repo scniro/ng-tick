@@ -13,7 +13,7 @@
                     },
                     link: function (scope, elem, attrs) {
 
-                        var offset = scope.offset ? parseInt(scope.offset) / 100 : 0;
+                        var offset = scope.offset ? ((parseInt(scope.offset) / 100) * 60 + new Date().getTimezoneOffset()) * 60 * 1000 : 0;
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -22,11 +22,10 @@
 
                         var clock = engine.timer({
                             onTick: function (ms) {
-                                var diff = scope.offset ? offset * 60 + new Date().getTimezoneOffset() : 0;
 
-                                var date = scope.offset ? new Date(Date.now() + (diff * 60 * 1000)) : Date.now();
+                                var date = scope.offset ? new Date(Date.now() + offset) : new Date();
 
-                                scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
+                                scope.format ? elem.text(filter(date, scope.format)) : elem.text(date);
                             }
                         });
 
