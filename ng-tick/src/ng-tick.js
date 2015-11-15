@@ -22,9 +22,10 @@
 
                         var clock = engine.timer({
                             onTick: function (ms) {
-
                                 var diff = scope.offset ? offset * 60 + new Date().getTimezoneOffset() : 0;
+
                                 var date = scope.offset ? new Date(Date.now() + (diff * 60 * 1000)) : Date.now();
+
                                 scope.format ? elem.text(filter(new Date(date), scope.format)) : elem.text(new Date(date));
                             }
                         });
