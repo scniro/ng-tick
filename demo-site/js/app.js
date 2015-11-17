@@ -140,14 +140,14 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
     ];
 }]);
 
-app.controller('factoryCtrl', ['$scope', 'tick', function ($scope, tick) {
-    var eng = tick.engine({
-        interval: function(interval) {
-            console.log(interval);
-        }
+app.controller('factoryCtrl', ['$scope', 'engine', function ($scope, engine) {
+    engine.start(1000).on(function(interval) {
+        console.log(interval);
     });
 
-    eng.start(1000);
+    $scope.$on('$destroy', function () {
+        engine.stop();
+    });
 }]);
 
 app.directive('tabs', [function () {

@@ -45,84 +45,85 @@
                 }
             }
         ])
-        .directive('timer', ['$filter', 'tick', function ($filter, tick) {
-            return {
-                scope: {
-                    format: '@',
-                    handle: '@timer',
-                    trigger: '='
-                },
-                link: function (scope, elem, attrs) {
+        .directive('timer', [
+            '$filter', 'tick', function ($filter, tick) {
+                return {
+                    scope: {
+                        format: '@',
+                        handle: '@timer',
+                        trigger: '='
+                    },
+                    link: function (scope, elem, attrs) {
 
-                    var relative = $filter('relativeTime');
+                        var relative = $filter('relativeTime');
 
-                    var filter = $filter('date');
+                        var filter = $filter('date');
 
-                    var timer = tick.timer({
-                        onTick: function (ms) {
+                        var timer = tick.timer({
+                            onTick: function (ms) {
 
-                            var time = relative(ms);
-                            time = scope.format ? filter(time, scope.format) : time;
-                            elem.text(time);
-                        },
-                        onLap: function (lap, ms) {
-                            if (scope.handle)
-                                scope.$root[scope.handle].$emit(scope.handle + ':lap', { 'lap': lap, 'elapsed': ms });
-                        }
-                    });
-
-                    if (scope.handle)
-                        scope.$root[scope.handle] = scope;
-
-                    scope.start = function () {
-
-                        if (scope.handle && !timer.ticking)
-                            scope.$root[scope.handle].$emit(scope.handle + ':start');
-
-                        timer.start();
-
-                        return this;
-                    }
-
-                    scope.stop = function () {
-
-                        if (scope.handle && timer.ticking)
-                            scope.$root[scope.handle].$emit(scope.handle + ':stop');
-
-                        timer.stop();
-
-                        return this;
-                    }
-
-                    scope.reset = function () {
+                                var time = relative(ms);
+                                time = scope.format ? filter(time, scope.format) : time;
+                                elem.text(time);
+                            },
+                            onLap: function (lap, ms) {
+                                if (scope.handle)
+                                    scope.$root[scope.handle].$emit(scope.handle + ':lap', { 'lap': lap, 'elapsed': ms });
+                            }
+                        });
 
                         if (scope.handle)
-                            scope.$root[scope.handle].$emit(scope.handle + ':reset');
+                            scope.$root[scope.handle] = scope;
 
-                        timer.reset();
+                        scope.start = function () {
 
-                        return this;
+                            if (scope.handle && !timer.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':start');
+
+                            timer.start();
+
+                            return this;
+                        }
+
+                        scope.stop = function () {
+
+                            if (scope.handle && timer.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                            timer.stop();
+
+                            return this;
+                        }
+
+                        scope.reset = function () {
+
+                            if (scope.handle)
+                                scope.$root[scope.handle].$emit(scope.handle + ':reset');
+
+                            timer.reset();
+
+                            return this;
+                        }
+
+                        scope.lap = function () {
+                            timer.lap();
+
+                            return this;
+                        }
+
+                        scope.$on('$destroy', function () {
+
+                            if (scope.handle && timer.ticking)
+                                scope.$root[scope.handle].$emit(scope.handle + ':stop');
+
+                            timer.stop();
+                        });
+
+                        if (!scope.trigger)
+                            scope.start();
                     }
-
-                    scope.lap = function () {
-                        timer.lap();
-
-                        return this;
-                    }
-
-                    scope.$on('$destroy', function () {
-
-                        if (scope.handle && timer.ticking)
-                            scope.$root[scope.handle].$emit(scope.handle + ':stop');
-
-                        timer.stop();
-                    });
-
-                    if (!scope.trigger)
-                        scope.start();
                 }
             }
-        }
         ])
         .directive('countdown', [
             '$filter', '$timeout', 'tick', function ($filter, $timeout, tick) {
@@ -236,7 +237,7 @@
                         var diff = (Date.now() - start) - time;
                         setTimeout(tick, (interval - diff));
                     }
-                 }
+                }
 
                 this.start = function (intv) {
 
@@ -249,7 +250,7 @@
 
                 this.interval = options.interval || function () { };
 
-                this.stop = function() {
+                this.stop = function () {
                     ticking = false;
                 }
             }
@@ -390,7 +391,7 @@
             }
 
             return {
-                'engine': function(options) {
+                'engine': function (options) {
                     return new engine(options);
                 },
                 'timer': function (options) {
@@ -399,6 +400,46 @@
                 'countdown': function (options) {
                     return new countdown(options);
                 }
+            }
+        })
+        .factory('engine', function () {
+
+            var time, thread, begin, ticking, interval;
+
+            var self = this;
+
+            function on(cb) {
+                self.on = cb;
+            }
+
+            function tick() {
+                if (ticking) {
+                    time += interval;
+                    self.on(interval);
+                    var diff = (Date.now() - begin) - time;
+                    setTimeout(tick, (interval - diff));
+                }
+            }
+
+            function start(intv) {
+                interval = intv || 10;
+                begin = Date.now();
+                time = 0;
+                ticking = true;
+                thread = setTimeout(tick, interval);
+
+                return this;
+            }
+
+            function stop() {
+                clearTimeout(thread);
+                ticking = false;
+            }
+
+            return {
+                on: on,
+                start: start,
+                stop: stop
             }
         });
 }
