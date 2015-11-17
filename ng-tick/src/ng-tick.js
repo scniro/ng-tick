@@ -2,8 +2,7 @@
 
     angular.module('ngTick', [])
         .directive('clock', [
-            '$filter', 'engine', function ($filter, engine) {
-
+            '$filter', 'tick', function ($filter, tick) {
                 return {
                     scope: {
                         format: '@',
@@ -20,9 +19,8 @@
 
                         var filter = $filter('date');
 
-                        var clock = engine.timer({
-                            onTick: function (ms) {
-
+                        var clock = tick.engine({
+                            interval: function (interval) {
                                 var date = scope.offset ? new Date(Date.now() + offset) : new Date();
 
                                 scope.format ? elem.text(filter(date, scope.format)) : elem.text(date);
@@ -30,8 +28,7 @@
                         });
 
                         scope.start = function () {
-                            if (!clock.go)
-                                clock.start();
+                            clock.start(100);
                         }
 
                         scope.$on('$destroy', function () {
@@ -48,11 +45,11 @@
                 }
             }
         ])
-        .directive('ticker', ['$filter', 'engine', function ($filter, engine) {
+        .directive('timer', ['$filter', 'tick', function ($filter, tick) {
             return {
                 scope: {
                     format: '@',
-                    handle: '@ticker',
+                    handle: '@timer',
                     trigger: '='
                 },
                 link: function (scope, elem, attrs) {
@@ -61,7 +58,7 @@
 
                     var filter = $filter('date');
 
-                    var timer = engine.timer({
+                    var timer = tick.timer({
                         onTick: function (ms) {
 
                             var time = relative(ms);
@@ -128,7 +125,7 @@
         }
         ])
         .directive('countdown', [
-            '$filter', 'tickHelper', '$timeout', 'engine', function ($filter, tickHelper, $timeout, engine) {
+            '$filter', '$timeout', 'tick', function ($filter, $timeout, tick) {
                 return {
                     scope: {
                         format: '@',
@@ -146,7 +143,7 @@
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
 
-                        var countdown = engine.countdown({
+                        var countdown = tick.countdown({
                             onTick: function (ms) {
 
                                 var time = relative(ms);
@@ -198,141 +195,6 @@
                 }
             }
         ])
-        .directive('binaryClock', [
-            '$timeout', 'engine', function ($timeout, engine) {
-                return {
-                    restrict: 'E',
-                    template:
-                        '<div id="clock">' +
-                            '<div class="field" id="hours">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            ' <tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div class="bit" id="hours-eights"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="blank" id="hours-forties"></div></td>' +
-                            '<td><div class="bit" id="hours-fours"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="hours-twenties"></div></td>' +
-                            '<td><div class="bit" id="hours-twos"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="hours-tens"></div></td>' +
-                            '<td><div class="bit" id="hours-ones"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '<div class="field" id="minutes">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            '<tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div class="bit" id="minutes-eights"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-forties"></div></td>' +
-                            '<td><div class="bit" id="minutes-fours"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-twenties"></div></td>' +
-                            '<td><div class="bit" id="minutes-twos"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-tens"></div></td>' +
-                            '<td><div class="bit" id="minutes-ones"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '<div class="field" id="seconds">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            '<tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div id="seconds-eights" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-forties" class="bit"></div></td>' +
-                            '<td><div id="seconds-fours" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-twenties" class="bit"></div></td>' +
-                            '<td><div id="seconds-twos" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-tens" class="bit"></div></td>' +
-                            '<td><div id="seconds-ones" class="bit"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '</div>',
-                    link: function (scope, elem, attrs) {
-
-                        $timeout(function () {
-                            function setBit(field, value) {
-
-                                var ele = document.getElementById(field);
-
-                                if (ele.classList.contains('blank'))
-                                    return false;
-
-                                if (value)
-                                    ele.setAttribute('class', 'bit on');
-                                else
-                                    ele.setAttribute('class', 'bit off');
-                            }
-
-                            function setBCDs(field, value) {
-
-                                setBit(field + '-forties', value >= 40);
-
-                                if (value >= 40) {
-                                    value -= 40;
-                                }
-                                setBit(field + '-twenties', value >= 20);
-                                if (value >= 20) {
-                                    value -= 20;
-                                }
-                                setBit(field + '-tens', value >= 10);
-                                if (value >= 10) {
-                                    value -= 10;
-                                }
-                                setBit(field + '-eights', value >= 8);
-                                if (value >= 8) {
-                                    value -= 8;
-                                }
-                                setBit(field + '-fours', value >= 4);
-                                if (value >= 4) {
-                                    value -= 4;
-                                }
-                                setBit(field + '-twos', value >= 2);
-                                if (value >= 2) {
-                                    value -= 2;
-                                }
-                                setBit(field + '-ones', value >= 1);
-                            }
-
-                            function tick() {
-                                var now = new Date();
-                                setBCDs('hours', now.getHours());
-                                setBCDs('minutes', now.getMinutes());
-                                setBCDs('seconds', now.getSeconds());
-                            }
-
-                            tick();
-
-                            var timer = engine.timer({
-                                interval: 100,
-                                onTick: function (ms) {
-                                    tick();
-                                }
-                            });
-
-                            timer.start();
-                        });
-                    }
-                }
-            }
-        ])
         .factory('tickHelper', [
             function () {
 
@@ -360,7 +222,37 @@
                 };
             }
         ])
-        .factory('engine', function (tickHelper) {
+        .factory('tick', function (tickHelper) {
+
+            function engine(options) {
+
+                var time, thread, start, ticking, interval;
+                var self = this;
+
+                function tick() {
+                    if (ticking) {
+                        time += interval;
+                        self.interval(interval);
+                        var diff = (Date.now() - start) - time;
+                        setTimeout(tick, (interval - diff));
+                    }
+                 }
+
+                this.start = function (intv) {
+
+                    interval = intv || 10;
+                    start = Date.now();
+                    time = 0;
+                    ticking = true;
+                    thread = setTimeout(tick, interval);
+                }
+
+                this.interval = options.interval || function () { };
+
+                this.stop = function() {
+                    ticking = false;
+                }
+            }
 
             function timer(options) {
 
@@ -439,35 +331,6 @@
                 }
             }
 
-            function clock(options) {
-
-                options = options || {};
-
-                var self = this;
-                var start, time, thread;
-                var interval = options.interval || 10;
-
-                function tick() {
-                    if (self.ticking) {
-                        time += interval;
-                        self.onTick(from);
-                        var diff = (Date.now() - start) - time;
-                        setTimeout(tick, (interval - diff));
-                    }
-                }
-
-                this.start = function () {
-
-                    if (!self.ticking) {
-                        start = Date.now();
-                        self.ticking = true;
-                        thread = setTimeout(tick, interval);
-                    }
-
-                    return this;
-                }
-            }
-
             function countdown(options) {
 
                 var self = this;
@@ -527,14 +390,14 @@
             }
 
             return {
+                'engine': function(options) {
+                    return new engine(options);
+                },
                 'timer': function (options) {
                     return new timer(options);
                 },
                 'countdown': function (options) {
                     return new countdown(options);
-                },
-                'clock': function (options) {
-                    return new clock(options);
                 }
             }
         });

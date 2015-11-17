@@ -51,6 +51,32 @@ aside.spine {
         margin-top: 0.375em;
         margin-right: 0.500em; }
 
+tabs .header {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  top: 0.063em;
+  margin-top: -0.063em; }
+  tabs .header li {
+    float: left;
+    cursor: pointer;
+    padding: 0.500em 1.000em; }
+    tabs .header li.active {
+      background-color: #f5f2f0;
+      border-top: solid 0.063em #CCC;
+      border-left: solid 0.063em #CCC;
+      border-right: solid 0.063em #CCC;
+      border-bottom: solid 0.063em transparent; }
+    tabs .header li:not(.active):hover {
+      background-color: #CCC;
+      border-bottom: solid 0.063em #CCC; }
+
+tabs .body {
+  clear: both;
+  background-color: #f5f2f0;
+  border: solid 0.063em #CCC; }
+
 body {
   font-family: 'Open Sans', sans-serif;
   overflow: hidden;
@@ -131,6 +157,6 @@ binary-clock {
   binary-clock .bit.off {
     background-color: #98C0D6; }
 
-#ticker-lap {
+#timer-lap {
   list-style: none;
   padding: 0; }

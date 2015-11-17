@@ -1,0 +1,19 @@
+﻿<h1>ticker</h1>
+<section class="pane left">
+    <span timer="mytimer" format="HH:mm:ss:sss" trigger="true"></span>
+
+    <div class="timer-controls">
+        <button ng-click="start('mytimer')">start</button>
+
+        <button ng-click="stop('mytimer')">stop</button>
+
+        <button ng-click="lap('mytimer')">lap</button>
+
+        <button ng-click="reset('mytimer')">reset</button>
+    </div>
+
+    <ol id="timer-lap"></ol>
+</section>
+<section class="pane right">
+    <tabs tabs="tabs" selected="0"></tabs>
+</section>

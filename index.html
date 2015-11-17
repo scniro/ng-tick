@@ -6,6 +6,7 @@
     <title>ngTick</title>
 
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="demo-site/lib/prism.css" />
     <link rel="stylesheet" href="demo-site/css/style.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.0/angular.js"></script>
@@ -46,13 +47,10 @@
                     <div></div><a ui-sref="countdown"><span>countdown</span></a>
                 </li>
                 <li class="sub">
-                    <div></div><a ui-sref="ticker"><span>ticker</span></a>
+                    <div></div><a ui-sref="timer"><span>timer</span></a>
                 </li>
-                <li class="static">
-                    <span>extras</span>
-                </li>
-                <li class="sub">
-                    <div></div><a ui-sref="binary"><span>binary clock</span></a>
+                <li class="root">
+                    <div></div><a ui-sref="factory"><span>factory</span></a>
                 </li>
             </ol>
         </aside>
@@ -60,6 +58,7 @@
         <section ui-view class="content"></section>
     </div>
 
+    <script src="demo-site/lib/prism.js"></script>
     <script src="demo-site/js/app.js"></script>
     <script src="ng-tick/src/ng-tick.js"></script>
 </body>

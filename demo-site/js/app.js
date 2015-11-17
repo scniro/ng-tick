@@ -22,15 +22,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
             controller: 'countdownCtrl',
             templateUrl: 'demo-site/view/directives/countdown.html'
         })
-        .state('ticker', {
-            url: '/directives/ticker',
-            controller: 'tickerCtrl',
-            templateUrl: 'demo-site/view/directives/ticker.html'
+        .state('timer', {
+            url: '/directives/timer',
+            controller: 'timerCtrl',
+            templateUrl: 'demo-site/view/directives/timer.html'
         })
-        .state('binary', {
-            url: '/extras/binary',
-            controller: 'binaryCtrl',
-            templateUrl: 'demo-site/view/extras/binary.html'
+        .state('factory', {
+            url: '/factory',
+            controller: 'factoryCtrl',
+            templateUrl: 'demo-site/view/factory.html'
         });
 }]);
 
@@ -42,6 +42,11 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
     $scope.startClock = function (handle) {
         $scope[handle].start();
     }
+
+    $scope.tabs = [
+        { 'title': 'Markup', 'url': 'demo-site/template/clock/markup.html' },
+        { 'title': 'Controller', 'url': 'demo-site/template/clock/controller.html' }
+    ];
 }]);
 
 app.controller('countdownCtrl', ['$scope', function ($scope) {
@@ -80,11 +85,16 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
     $scope.$on('mycountdown:end', function (event) {
         console.log('mycountdown:end');
     });
+
+    $scope.tabs = [
+        { 'title': 'Markup', 'url': 'demo-site/template/countdown/markup.html' },
+        { 'title': 'Controller', 'url': 'demo-site/template/countdown/controller.html' }
+    ];
 }]);
 
-app.controller('tickerCtrl', ['$scope', function ($scope) {
+app.controller('timerCtrl', ['$scope', function ($scope) {
 
-    var lapOutput = angular.element(document.getElementById('ticker-lap'));
+    var lapOutput = angular.element(document.getElementById('timer-lap'));
 
     $scope.lap = function (handle) {
         $scope[handle].lap();
@@ -102,7 +112,7 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         $scope[handle].stop();
     }
 
-    $scope.$on('myticker:lap', function (event, response) {
+    $scope.$on('mytimer:lap', function (event, response) {
         console.log('myticker:lap');
 
         if (lapOutput.children().length < 3) {
@@ -112,19 +122,202 @@ app.controller('tickerCtrl', ['$scope', function ($scope) {
         }
     });
 
-    $scope.$on('myticker:reset', function (event) {
+    $scope.$on('mytimer:reset', function (event) {
         console.log('myticker:reset');
     });
 
-    $scope.$on('myticker:start', function (event) {
+    $scope.$on('mytimer:start', function (event) {
         console.log('myticker:start');
     });
 
-    $scope.$on('myticker:stop', function (event) {
+    $scope.$on('mytimer:stop', function (event) {
         console.log('myticker:stop');
     });
+
+    $scope.tabs = [
+        { 'title': 'Markup', 'url': 'demo-site/template/timer/markup.html' },
+        { 'title': 'Controller', 'url': 'demo-site/template/timer/controller.html' }
+    ];
 }]);
 
-app.controller('binaryCtrl', ['$scope', function ($scope) {
+app.controller('factoryCtrl', ['$scope', 'tick', function ($scope, tick) {
+    var eng = tick.engine({
+        interval: function(interval) {
+            console.log(interval);
+        }
+    });
 
+    eng.start(1000);
 }]);
+
+app.directive('tabs', [function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'demo-site/template/tabs.html',
+        scope: {
+            tabs: '=',
+            selected: '@'
+        },
+        link: function (scope, elem, attrs) {
+
+            if (scope.tabs) {
+                scope.currentTab = scope.tabs[scope.selected].url;
+
+                scope.onClickTab = function (tab) {
+                    scope.currentTab = tab.url;
+                }
+
+                scope.isActiveTab = function (tabUrl) {
+                    return tabUrl === scope.currentTab;
+                }
+            }
+        }
+    }
+}]);
+
+app.directive('prism', [function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.ready(function () {
+                Prism.highlightElement(elem[0]);
+            });
+        }
+    }
+}]);
+
+app.directive('binaryClock', [
+            '$timeout', 'tick', function ($timeout, tick) {
+                return {
+                    restrict: 'E',
+                    template:
+                        '<div id="clock">' +
+                            '<div class="field" id="hours">' +
+                            '<table border="0" cellspacing="0" cellpadding="0">' +
+                            ' <tr>' +
+                            '<td><div class="blank"></div></td>' +
+                            '<td><div class="bit" id="hours-eights"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="blank" id="hours-forties"></div></td>' +
+                            '<td><div class="bit" id="hours-fours"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="bit" id="hours-twenties"></div></td>' +
+                            '<td><div class="bit" id="hours-twos"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="bit" id="hours-tens"></div></td>' +
+                            '<td><div class="bit" id="hours-ones"></div></td>' +
+                            '</tr>' +
+                            '</table>' +
+                            '</div>' +
+                            '<div class="field" id="minutes">' +
+                            '<table border="0" cellspacing="0" cellpadding="0">' +
+                            '<tr>' +
+                            '<td><div class="blank"></div></td>' +
+                            '<td><div class="bit" id="minutes-eights"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="bit" id="minutes-forties"></div></td>' +
+                            '<td><div class="bit" id="minutes-fours"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="bit" id="minutes-twenties"></div></td>' +
+                            '<td><div class="bit" id="minutes-twos"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div class="bit" id="minutes-tens"></div></td>' +
+                            '<td><div class="bit" id="minutes-ones"></div></td>' +
+                            '</tr>' +
+                            '</table>' +
+                            '</div>' +
+                            '<div class="field" id="seconds">' +
+                            '<table border="0" cellspacing="0" cellpadding="0">' +
+                            '<tr>' +
+                            '<td><div class="blank"></div></td>' +
+                            '<td><div id="seconds-eights" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div id="seconds-forties" class="bit"></div></td>' +
+                            '<td><div id="seconds-fours" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div id="seconds-twenties" class="bit"></div></td>' +
+                            '<td><div id="seconds-twos" class="bit"></div></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td><div id="seconds-tens" class="bit"></div></td>' +
+                            '<td><div id="seconds-ones" class="bit"></div></td>' +
+                            '</tr>' +
+                            '</table>' +
+                            '</div>' +
+                            '</div>',
+                    link: function (scope, elem, attrs) {
+
+                        $timeout(function () {
+                            function setBit(field, value) {
+
+                                var ele = document.getElementById(field);
+
+                                if (ele.classList.contains('blank'))
+                                    return false;
+
+                                if (value)
+                                    ele.setAttribute('class', 'bit on');
+                                else
+                                    ele.setAttribute('class', 'bit off');
+                            }
+
+                            function setBCDs(field, value) {
+
+                                setBit(field + '-forties', value >= 40);
+
+                                if (value >= 40) {
+                                    value -= 40;
+                                }
+                                setBit(field + '-twenties', value >= 20);
+                                if (value >= 20) {
+                                    value -= 20;
+                                }
+                                setBit(field + '-tens', value >= 10);
+                                if (value >= 10) {
+                                    value -= 10;
+                                }
+                                setBit(field + '-eights', value >= 8);
+                                if (value >= 8) {
+                                    value -= 8;
+                                }
+                                setBit(field + '-fours', value >= 4);
+                                if (value >= 4) {
+                                    value -= 4;
+                                }
+                                setBit(field + '-twos', value >= 2);
+                                if (value >= 2) {
+                                    value -= 2;
+                                }
+                                setBit(field + '-ones', value >= 1);
+                            }
+
+                            function tock() {
+                                var now = new Date();
+                                setBCDs('hours', now.getHours());
+                                setBCDs('minutes', now.getMinutes());
+                                setBCDs('seconds', now.getSeconds());
+                            }
+
+                            tock();
+
+                            var timer = tick.timer({
+                                interval: 100,
+                                onTick: function (ms) {
+                                    tock();
+                                }
+                            });
+
+                            timer.start();
+                        });
+                    }
+                }
+            }
+])
