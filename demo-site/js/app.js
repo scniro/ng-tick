@@ -112,8 +112,9 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
         $scope[handle].stop();
     }
 
-    $scope.$on('mytimer:lap', function (event, response) {
+    $scope.$on('mytimer:lap', function (event, response, status) {
         console.log('myticker:lap');
+        console.log(status);
 
         if (lapOutput.children().length < 3) {
             lapOutput.append('<li>lap: ' + response.lap + ' ms: ' + response.elapsed + '</li>');
@@ -122,16 +123,19 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
         }
     });
 
-    $scope.$on('mytimer:reset', function (event) {
+    $scope.$on('mytimer:reset', function (event, status) {
         console.log('myticker:reset');
+        console.log(status);
     });
 
-    $scope.$on('mytimer:start', function (event) {
+    $scope.$on('mytimer:start', function (event, status) {
         console.log('myticker:start');
+        console.log(status);
     });
 
-    $scope.$on('mytimer:stop', function (event) {
+    $scope.$on('mytimer:stop', function (event, status) {
         console.log('myticker:stop');
+        console.log(status);
     });
 
     $scope.tabs = [
@@ -141,12 +145,15 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('factoryCtrl', ['$scope', 'engine', function ($scope, engine) {
-    engine.start(1000).on(function(interval) {
+
+    var eng = new engine();
+
+    eng.start(1000).on(function(interval) {
         console.log(interval);
     });
 
     $scope.$on('$destroy', function () {
-        engine.stop();
+        eng.stop();
     });
 }]);
 
