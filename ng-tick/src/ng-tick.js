@@ -233,8 +233,8 @@
 
                 function reset(duration) {
                     from = getDuration(duration) || 0;
-                    self.onTick(from);
                     eng.stop();
+                    self.onTick(from);
                     self.onReset(eng.status());
                 }
 
@@ -293,8 +293,8 @@
 
                 function reset() {
                     time = 0;
-                    self.onTick(time);
                     eng.stop();
+                    self.onTick(time);
                     self.onReset(eng.status());
                 }
 
