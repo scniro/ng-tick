@@ -43,6 +43,11 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
         $scope[handle].start();
     }
 
+    $scope.$on('myclock:start', function (event, status) {
+        console.log('myclock:start');
+        console.log(status);
+    });
+
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/clock/markup.html' },
         { 'title': 'Controller', 'url': 'demo-site/template/clock/controller.html' }
@@ -148,7 +153,7 @@ app.controller('factoryCtrl', ['$scope', 'engine', function ($scope, engine) {
 
     var eng = new engine();
 
-    eng.start(1000).on(function(interval) {
+    eng.start(1000).on(function (interval) {
         console.log(interval);
     });
 
@@ -194,7 +199,7 @@ app.directive('prism', [function () {
 }]);
 
 app.directive('binaryClock', [
-            '$timeout', 'tick', function ($timeout, tick) {
+            'engine', function (engine) {
                 return {
                     restrict: 'E',
                     template:
@@ -262,67 +267,60 @@ app.directive('binaryClock', [
                             '</div>',
                     link: function (scope, elem, attrs) {
 
-                        $timeout(function () {
-                            function setBit(field, value) {
+                        function setBit(field, value) {
 
-                                var ele = document.getElementById(field);
+                            var ele = document.getElementById(field);
 
-                                if (ele.classList.contains('blank'))
-                                    return false;
+                            if (ele.classList.contains('blank'))
+                                return false;
 
-                                if (value)
-                                    ele.setAttribute('class', 'bit on');
-                                else
-                                    ele.setAttribute('class', 'bit off');
+                            if (value)
+                                ele.setAttribute('class', 'bit on');
+                            else
+                                ele.setAttribute('class', 'bit off');
+                        }
+
+                        function setBCDs(field, value) {
+
+                            setBit(field + '-forties', value >= 40);
+
+                            if (value >= 40) {
+                                value -= 40;
                             }
-
-                            function setBCDs(field, value) {
-
-                                setBit(field + '-forties', value >= 40);
-
-                                if (value >= 40) {
-                                    value -= 40;
-                                }
-                                setBit(field + '-twenties', value >= 20);
-                                if (value >= 20) {
-                                    value -= 20;
-                                }
-                                setBit(field + '-tens', value >= 10);
-                                if (value >= 10) {
-                                    value -= 10;
-                                }
-                                setBit(field + '-eights', value >= 8);
-                                if (value >= 8) {
-                                    value -= 8;
-                                }
-                                setBit(field + '-fours', value >= 4);
-                                if (value >= 4) {
-                                    value -= 4;
-                                }
-                                setBit(field + '-twos', value >= 2);
-                                if (value >= 2) {
-                                    value -= 2;
-                                }
-                                setBit(field + '-ones', value >= 1);
+                            setBit(field + '-twenties', value >= 20);
+                            if (value >= 20) {
+                                value -= 20;
                             }
-
-                            function tock() {
-                                var now = new Date();
-                                setBCDs('hours', now.getHours());
-                                setBCDs('minutes', now.getMinutes());
-                                setBCDs('seconds', now.getSeconds());
+                            setBit(field + '-tens', value >= 10);
+                            if (value >= 10) {
+                                value -= 10;
                             }
+                            setBit(field + '-eights', value >= 8);
+                            if (value >= 8) {
+                                value -= 8;
+                            }
+                            setBit(field + '-fours', value >= 4);
+                            if (value >= 4) {
+                                value -= 4;
+                            }
+                            setBit(field + '-twos', value >= 2);
+                            if (value >= 2) {
+                                value -= 2;
+                            }
+                            setBit(field + '-ones', value >= 1);
+                        }
 
-                            tock();
+                        var eng = new engine();
 
-                            var timer = tick.timer({
-                                interval: 100,
-                                onTick: function (ms) {
-                                    tock();
-                                }
-                            });
+                        eng.start(100).on(function (interval) {
+                            var now = new Date();
+                            setBCDs('hours', now.getHours());
+                            setBCDs('minutes', now.getMinutes());
+                            setBCDs('seconds', now.getSeconds());
+                        });
 
-                            timer.start();
+                        scope.$on('$destroy', function () {
+                            eng.stop();
                         });
                     }
                 }
