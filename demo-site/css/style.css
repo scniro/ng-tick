@@ -77,6 +77,18 @@ tabs .body {
   background-color: #f5f2f0;
   border: solid 0.063em #CCC; }
 
+pre {
+  margin: 0 !important; }
+
+pre, code {
+  font-size: 10pt; }
+
+pre[class*="language-shell"] {
+  background-color: #383838; }
+  pre[class*="language-shell"] code {
+    text-shadow: none;
+    color: white; }
+
 body {
   font-family: 'Open Sans', sans-serif;
   overflow: hidden;
@@ -160,3 +172,13 @@ binary-clock {
 #timer-lap {
   list-style: none;
   padding: 0; }
+
+button {
+  background: none;
+  background-color: transparent;
+  border: solid 1px #689BB7;
+  border-radius: 4px;
+  padding: 4px 8px;
+  outline: none; }
+  button:hover, button:focus {
+    background-color: #CCE3EF; }

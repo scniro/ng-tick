@@ -13,7 +13,7 @@ header {
     height: 4.000em;
     background-color: $white;
     overflow: hidden;
-    background-color: $header;
+    background-color: $blue;
 
     h1 {
         display: inline;
@@ -114,4 +114,17 @@ binary-clock {
 #timer-lap {
     list-style: none;
     padding: 0;
+}
+
+button {
+    background: none;
+    background-color: transparent;
+    border: solid 1px $blue;
+    border-radius: 4px;
+    padding: 4px 8px;
+    outline: none;
+
+    &:hover, &:focus {
+        background-color: $blue-lighter;
+    }
 }

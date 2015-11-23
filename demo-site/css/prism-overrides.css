@@ -1,0 +1,11 @@
+pre {
+  margin: 0 !important; }
+
+pre, code {
+  font-size: 10pt; }
+
+pre[class*="language-shell"] {
+  background-color: #383838; }
+  pre[class*="language-shell"] code {
+    text-shadow: none;
+    color: white; }
