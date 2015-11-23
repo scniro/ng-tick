@@ -1,4 +1,3 @@
-/* moonkai */
 html, body, div, form, fieldset, legend, label {
   margin: 0;
   padding: 0; }
@@ -51,6 +50,18 @@ aside.spine {
         margin-top: 0.375em;
         margin-right: 0.500em; }
 
+pre {
+  margin: 0 !important; }
+
+pre, code {
+  font-size: 10pt; }
+
+pre[class*="language-shell"] {
+  background-color: #3E3D32; }
+  pre[class*="language-shell"] code {
+    text-shadow: none;
+    color: white; }
+
 tabs .header {
   list-style: none;
   padding: 0;
@@ -76,18 +87,6 @@ tabs .body {
   clear: both;
   background-color: #f5f2f0;
   border: solid 0.063em #CCC; }
-
-pre {
-  margin: 0 !important; }
-
-pre, code {
-  font-size: 10pt; }
-
-pre[class*="language-shell"] {
-  background-color: #383838; }
-  pre[class*="language-shell"] code {
-    text-shadow: none;
-    color: white; }
 
 body {
   font-family: 'Open Sans', sans-serif;

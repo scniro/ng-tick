@@ -1,4 +1,6 @@
-﻿pre {
+﻿@import "variables"; // idfk
+
+pre {
 	margin: 0 !important;
 }
 
@@ -7,7 +9,7 @@ pre, code {
 }
 
 pre[class*="language-shell"] {
-	background-color: #383838; // todo
+	background-color: $black;
 
 	code {
 		text-shadow: none;
