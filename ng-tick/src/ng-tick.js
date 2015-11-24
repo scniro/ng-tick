@@ -8,9 +8,12 @@
                         format: '@',
                         handle: '@clock',
                         offset: '@',
-                        trigger: '='
+                        trigger: '=',
+                        interval: '@'
                     },
                     link: function (scope, elem, attrs) {
+
+                        console.log(scope.interval)
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -18,15 +21,18 @@
                         var filter = $filter('date');
 
                         var clock = tick.clock({
-                            interval: 100,
+                            interval: scope.interval,
                             offset: scope.offset,
                             onStart: function (status) {
                                 if (scope.handle)
                                     scope.$root[scope.handle].$emit(scope.handle + ':start', status);
                             },
-                            onTick: function (stamp) {
+                            onTick: function (stamp, status) {
                                 var value = scope.format ? filter(new Date(stamp), scope.format) : new Date(stamp);
                                 elem[0].value !== undefined ? elem.val(value) : elem.text(value);
+
+                                if (scope.handle)
+                                    scope.$root[scope.handle].$emit(scope.handle + ':tick', status);
                             }
                         });
 
@@ -169,7 +175,7 @@
 
                 eng.on(function (interval) {
                     var stamp = Date.now() + offset;
-                    self.onTick(stamp);
+                    self.onTick(stamp, eng.status());
                 });
 
                 self.onStart = options.onStart || function () { };
@@ -346,7 +352,7 @@
                 }
 
                 function start(intv) {
-                    interval = intv || 10;
+                    interval = intv ? parseInt(intv) : 10;
                     begin = Date.now();
                     time = 0;
                     self.running = true;

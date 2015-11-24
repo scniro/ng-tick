@@ -48,6 +48,10 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
         console.log(status);
     });
 
+    $scope.$on('myclock:tick', function (event, stamp, status) {
+        console.log('myclock:tick');
+    });
+
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/clock/markup.html' },
         { 'title': 'Controller', 'url': 'demo-site/template/clock/controller.html' }
