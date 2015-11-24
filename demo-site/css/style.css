@@ -198,6 +198,7 @@ button {
   border: solid 1px #D0A73B;
   border-radius: 4px;
   padding: 4px 8px;
-  outline: none; }
+  outline: none;
+  width: 4.500em; }
   button:hover, button:focus {
     background-color: #FFEAB0; }
