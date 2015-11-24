@@ -43,15 +43,6 @@ app.controller('clockCtrl', ['$scope', function ($scope) {
         $scope[handle].start();
     }
 
-    $scope.$on('myclock:start', function (event, status) {
-        console.log('myclock:start');
-        console.log(status);
-    });
-
-    $scope.$on('myclock:tick', function (event, stamp, status) {
-        console.log('myclock:tick');
-    });
-
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/clock/markup.html' },
         { 'title': 'Controller', 'url': 'demo-site/template/clock/controller.html' }
@@ -78,22 +69,6 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
     $scope.stop = function (handle) {
         $scope[handle].stop();
     }
-
-    $scope.$on('mycountdown:reset', function (event) {
-        console.log('mycountdown:reset');
-    });
-
-    $scope.$on('mycountdown:start', function (event) {
-        console.log('mycountdown:start');
-    });
-
-    $scope.$on('mycountdown:stop', function (event) {
-        console.log('mycountdown:stop');
-    });
-
-    $scope.$on('mycountdown:end', function (event) {
-        console.log('mycountdown:end');
-    });
 
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/countdown/markup.html' },
@@ -122,8 +97,6 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
     }
 
     $scope.$on('mytimer:lap', function (event, response, status) {
-        console.log('myticker:lap');
-        console.log(status);
 
         if (lapOutput.children().length < 3) {
             lapOutput.append('<li>lap: ' + response.lap + ' ms: ' + response.elapsed + '</li>');
@@ -133,18 +106,12 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
     });
 
     $scope.$on('mytimer:reset', function (event, status) {
-        console.log('myticker:reset');
-        console.log(status);
     });
 
     $scope.$on('mytimer:start', function (event, status) {
-        console.log('myticker:start');
-        console.log(status);
     });
 
     $scope.$on('mytimer:stop', function (event, status) {
-        console.log('myticker:stop');
-        console.log(status);
     });
 
     $scope.tabs = [
@@ -158,7 +125,6 @@ app.controller('factoryCtrl', ['$scope', 'engine', function ($scope, engine) {
     var eng = new engine();
 
     eng.start(1000).on(function (interval) {
-        console.log(interval);
     });
 
     $scope.$on('$destroy', function () {
