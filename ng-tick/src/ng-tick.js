@@ -7,13 +7,11 @@
                     scope: {
                         format: '@',
                         handle: '@clock',
+                        interval: '@',
                         offset: '@',
-                        trigger: '=',
-                        interval: '@'
+                        trigger: '='
                     },
                     link: function (scope, elem, attrs) {
-
-                        console.log(scope.interval)
 
                         if (scope.handle)
                             scope.$root[scope.handle] = scope;
@@ -52,6 +50,7 @@
                     scope: {
                         format: '@',
                         handle: '@timer',
+                        interval: '@',
                         trigger: '='
                     },
                     link: function (scope, elem, attrs) {
@@ -108,7 +107,7 @@
                         duration: '=',
                         format: '@',
                         handle: '@countdown',
-                        interval: '=',
+                        interval: '@',
                         trigger: '='
                     },
                     link: function (scope, elem, attrs) {
