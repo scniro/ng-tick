@@ -80,6 +80,34 @@ section.content {
             }
         }
 
+        &.left.clock {
+            ul {
+                list-style: none;
+                float: left;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    width: 18.000em;
+                    margin-bottom: 1.000em;
+
+                    span {
+
+                        display: inline-block;
+
+                        &:first-of-type {
+                            width: 5em;
+                            color: $yellow;
+                        }
+
+                        &:last-of-type {
+                        }
+                    }
+                }
+            }
+        }
+
         &.right {
             float: right;
         }
@@ -98,16 +126,16 @@ binary-clock {
     .bit {
         width: 2em;
         height: 1em;
-        border: solid 1px #689BB7;
+        border: solid 1px $blue;
         box-sizing: border-box;
     }
 
     .bit.on {
-        background-color:  #CCE3EF;
+        background-color:  $blue-lighter;
     }
 
     .bit.off {
-        background-color: #98C0D6;
+        background-color: $blue-light;
     }
 }
 
@@ -116,15 +144,22 @@ binary-clock {
     padding: 0;
 }
 
+.tick {
+    font-size: 20pt;
+    margin: 0.500em 0;
+    display: block;
+    color: $blue;
+}
+
 button {
     background: none;
     background-color: transparent;
-    border: solid 1px #D0A73B;
+    border: solid 1px $yellow;
     border-radius: 4px;
     padding: 4px 8px;
     outline: none;
 
     &:hover, &:focus {
-        background-color: #FFEAB0;
+        background-color: $yellow;
     }
 }

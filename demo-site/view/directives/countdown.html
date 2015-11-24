@@ -1,12 +1,14 @@
 ﻿<h1>countdown</h1>
 <section class="pane left">
-    <span countdown="mycountdown" format="HH:mm:ss:sss" duration="duration" trigger="true" interval="10"></span>
-
     <button ng-click="start('mycountdown')">start</button>
 
     <button ng-click="reset('mycountdown')">reset</button>
 
     <button ng-click="stop('mycountdown')">stop</button>
+
+    <div>
+        <span class="tick" countdown="mycountdown" format="HH:mm:ss:sss" duration="duration" trigger="true" interval="10"></span>
+    </div>
 </section>
 <section class="pane right">
     <tabs tabs="tabs" selected="0"></tabs>

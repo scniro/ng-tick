@@ -149,6 +149,20 @@ section.content {
       section.content section.pane.left.icons {
         width: 50%;
         font-size: 10pt; }
+    section.content section.pane.left.clock ul {
+      list-style: none;
+      float: left;
+      width: 100%;
+      padding: 0;
+      margin: 0; }
+      section.content section.pane.left.clock ul li {
+        width: 18.000em;
+        margin-bottom: 1.000em; }
+        section.content section.pane.left.clock ul li span {
+          display: inline-block; }
+          section.content section.pane.left.clock ul li span:first-of-type {
+            width: 5em;
+            color: #D0A73B; }
     section.content section.pane.right {
       float: right; }
 
@@ -172,6 +186,12 @@ binary-clock {
   list-style: none;
   padding: 0; }
 
+.tick {
+  font-size: 20pt;
+  margin: 0.500em 0;
+  display: block;
+  color: #689BB7; }
+
 button {
   background: none;
   background-color: transparent;
@@ -180,4 +200,4 @@ button {
   padding: 4px 8px;
   outline: none; }
   button:hover, button:focus {
-    background-color: #FFEAB0; }
+    background-color: #D0A73B; }
