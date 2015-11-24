@@ -175,9 +175,9 @@ binary-clock {
 button {
   background: none;
   background-color: transparent;
-  border: solid 1px #689BB7;
+  border: solid 1px #D0A73B;
   border-radius: 4px;
   padding: 4px 8px;
   outline: none; }
   button:hover, button:focus {
-    background-color: #CCE3EF; }
+    background-color: #FFEAB0; }

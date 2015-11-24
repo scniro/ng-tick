@@ -119,12 +119,12 @@ binary-clock {
 button {
     background: none;
     background-color: transparent;
-    border: solid 1px $blue;
+    border: solid 1px #D0A73B;
     border-radius: 4px;
     padding: 4px 8px;
     outline: none;
 
     &:hover, &:focus {
-        background-color: $blue-lighter;
+        background-color: #FFEAB0;
     }
 }

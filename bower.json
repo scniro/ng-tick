@@ -5,7 +5,7 @@
     "authors": [
         "Sal Niro salvatore.niro@outlook.com"
     ],
-    "description": "A collection of AngularJS timing capability directives",
+    "description": "A more accurate timer with various common use directives",
     "main": "ng-tick.js",
     "keywords": [
         "moment",
