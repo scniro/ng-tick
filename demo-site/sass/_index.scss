@@ -21,7 +21,7 @@ header {
         letter-spacing: 0.125em;
         color: $white;
         line-height: 180%;
-        margin-left: 7em;
+        margin-left: 7.000em;
     }
 
     a {
@@ -97,7 +97,7 @@ section.content {
                         display: inline-block;
 
                         &:first-of-type {
-                            width: 5em;
+                            width: 5.000em;
                             color: $yellow;
                         }
 
@@ -124,8 +124,8 @@ binary-clock {
     }
 
     .bit {
-        width: 2em;
-        height: 1em;
+        width: 2.000em;
+        height: 1.000em;
         border: solid 1px $blue;
         box-sizing: border-box;
     }

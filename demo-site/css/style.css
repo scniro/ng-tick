@@ -109,7 +109,7 @@ header {
     letter-spacing: 0.125em;
     color: #FFF;
     line-height: 180%;
-    margin-left: 7em; }
+    margin-left: 7.000em; }
   header a {
     text-decoration: none;
     color: inherit; }
@@ -161,7 +161,7 @@ section.content {
         section.content section.pane.left.clock ul li span {
           display: inline-block; }
           section.content section.pane.left.clock ul li span:first-of-type {
-            width: 5em;
+            width: 5.000em;
             color: #D0A73B; }
     section.content section.pane.right {
       float: right; }
@@ -173,8 +173,8 @@ binary-clock {
   binary-clock .field {
     float: left; }
   binary-clock .bit {
-    width: 2em;
-    height: 1em;
+    width: 2.000em;
+    height: 1.000em;
     border: solid 1px #689BB7;
     box-sizing: border-box; }
   binary-clock .bit.on {
