@@ -164,3 +164,15 @@ button {
         background-color: $yellow-lighter;
     }
 }
+
+.inline-link {
+    border: solid 1px $blue;
+    background-color: $blue-lighter;
+    padding: 2px 4px;
+    border-radius: 4px;
+
+    a {
+        text-decoration: none;
+        color: $blue;
+    }
+}

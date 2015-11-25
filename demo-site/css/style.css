@@ -202,3 +202,12 @@ button {
   width: 4.500em; }
   button:hover, button:focus {
     background-color: #FFEAB0; }
+
+.inline-link {
+  border: solid 1px #689BB7;
+  background-color: #CCE3EF;
+  padding: 2px 4px;
+  border-radius: 4px; }
+  .inline-link a {
+    text-decoration: none;
+    color: #689BB7; }
