@@ -163,6 +163,8 @@ section.content {
           section.content section.pane.left.clock ul li span:first-of-type {
             width: 5.000em;
             color: #D0A73B; }
+    section.content section.pane.left.factory ul li {
+      margin: 1.000em 0; }
     section.content section.pane.right {
       float: right; }
 
@@ -211,3 +213,20 @@ button {
   .inline-link a {
     text-decoration: none;
     color: #689BB7; }
+
+.reference {
+  width: 100%;
+  float: left;
+  border: solid 1px #CCC;
+  margin-bottom: 1.000em; }
+  .reference .functions, .reference .callbacks {
+    float: left;
+    width: 50%; }
+    .reference .functions > div, .reference .callbacks > div {
+      padding: 1.000em; }
+    .reference .functions h2, .reference .callbacks h2 {
+      color: #689BB7;
+      margin-top: 0;
+      font-size: 14pt; }
+    .reference .functions .function, .reference .callbacks .function {
+      margin: 0.500em 0; }

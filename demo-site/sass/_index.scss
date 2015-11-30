@@ -93,7 +93,6 @@ section.content {
                     margin-bottom: 1.000em;
 
                     span {
-
                         display: inline-block;
 
                         &:first-of-type {
@@ -104,6 +103,14 @@ section.content {
                         &:last-of-type {
                         }
                     }
+                }
+            }
+        }
+
+        &.left.factory {
+            ul {
+                li {
+                    margin: 1.000em 0;
                 }
             }
         }
@@ -131,7 +138,7 @@ binary-clock {
     }
 
     .bit.on {
-        background-color:  $blue-lighter;
+        background-color: $blue-lighter;
     }
 
     .bit.off {
@@ -174,5 +181,31 @@ button {
     a {
         text-decoration: none;
         color: $blue;
+    }
+}
+
+.reference {
+    width: 100%;
+    float: left;
+    border: solid 1px $gray;
+    margin-bottom: 1.000em;
+
+    .functions, .callbacks {
+        float: left;
+        width: 50%;
+
+        > div {
+            padding: 1.000em;
+        }
+
+        h2 {
+            color: $blue;
+            margin-top: 0;
+            font-size: 14pt;
+        }
+
+        .function {
+            margin: 0.500em 0;
+        }
     }
 }

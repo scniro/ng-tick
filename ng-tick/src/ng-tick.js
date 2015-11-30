@@ -36,9 +36,11 @@
 
                         scope.start = function () { clock.start(); }
 
+                        scope.stop = function () { clock.stop(); }
+
                         scope.$on('$destroy', function () { clock.stop(); });
 
-                        if (!scope.trigger)
+                        if (!scope.trigger) 
                             scope.start();
                     }
                 }

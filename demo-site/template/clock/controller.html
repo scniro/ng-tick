@@ -1,6 +1,15 @@
 ﻿<div>
-<pre><code prism class="language-javascript">
-clock controller
-</code>
-</pre>
+<pre><code prism class="language-javascript">module.controller('ctrl', ['$scope', '$timeout', function ($scope, $timeout) {
+    
+    // immediate invocation requires a $timeout wrapper
+    $timeout(function() {
+        $scope.myclock.start();
+    });
+    
+    // optional event callback if handle specified
+    $scope.$on('myclock:tick', function(event, status) {
+        console.log(status);
+    })
+}]);
+</code></pre>
 </div>

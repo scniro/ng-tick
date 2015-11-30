@@ -38,10 +38,11 @@ app.controller('gettingStartedCtrl', ['$scope', function ($scope) {
 
 }]);
 
-app.controller('clockCtrl', ['$scope', function ($scope) {
-    $scope.startClock = function (handle) {
-        $scope[handle].start();
-    }
+app.controller('clockCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+
+    $timeout(function() {
+        $scope.myclock.start();
+    });
 
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/clock/markup.html' },

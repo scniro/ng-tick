@@ -3,19 +3,43 @@
     <ul>
         <li>
             <span>Local</span>
-            <span clock="myclock" format="medium" trigger="false" interval="100"></span>
+            <span clock="myclock" format="medium" trigger="true" interval="100"></span>
         </li>
         <li>
             <span>London</span>
-            <span clock="myclock2" format="medium" trigger="false" offset="0" interval="100"></span>
+            <span clock format="medium" offset="0" interval="100"></span>
         </li>
         <li>
             <span>Sydney</span>
-            <span clock="myclock3" format="medium" trigger="false" offset="+1100" interval="100"></span>
+            <span clock format="medium" offset="+1100" interval="100"></span>
         </li>
     </ul>
-
 </section>
+
 <section class="pane right">
+    <div class="reference">
+        <div class="functions">
+            <div>
+                <h2>functions</h2>
+                <div class="function">
+                    <code prism class="language-javascript">.start()</code>
+                </div>
+                <div>
+                    <code prism class="language-javascript">.stop()</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="callbacks">
+            <div>
+                <h2>callbacks</h2>
+
+                <div class="function">
+                    <code prism class="language-javascript">'handle:tick'</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <tabs tabs="tabs" selected="0"></tabs>
 </section>

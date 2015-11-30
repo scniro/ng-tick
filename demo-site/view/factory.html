@@ -1,1 +1,30 @@
 ﻿<h1>engine</h1>
+
+<section class="pane left factory">
+    <ul>
+        <li>
+            inject and instantiate a new <code prism class="language-javascript">engine</code>
+        </li>
+        <li>
+            specify an <code prism class="language-javascript">interval</code>
+        </li>
+        <li>
+            be sure to remove the timer from memory via <code prism class="language-javascript">.stop()</code>
+        </li>
+    </ul>
+
+    <div>
+        <pre><code prism class="language-javascript">module.controller('ctrl', ['$scope', 'engine', function ($scope, engine) {
+    var eng = new engine();
+
+    eng.start(1000).on(function (interval) {
+        // do stuff
+    });
+
+    $scope.$on('$destroy', function () {
+        eng.stop(); // clear from memory
+    });
+}]);</code></pre></div>
+</section>
+
+
