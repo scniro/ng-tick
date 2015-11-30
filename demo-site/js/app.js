@@ -70,27 +70,6 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
         $scope.mycountdown.stop();
     }
 
-    $scope.$on('mycountdown:end', function (event, status) {
-        console.log('end');
-        console.log(status);
-    });
-
-    $scope.$on('mycountdown:reset', function (event, status, remaining) {
-        console.log(remaining);
-    });
-
-    $scope.$on('mycountdown:start', function (event, status, remaining) {
-        console.log(remaining);
-    });
-
-    $scope.$on('mycountdown:stop', function (event, status, remaining) {
-        console.log(remaining);
-    });
-
-    $scope.$on('mycountdown:tick', function (event, status, remaining) {
-        //console.log(remaining);
-    });
-
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/countdown/markup.html' },
         { 'title': 'Controller', 'url': 'demo-site/template/countdown/controller.html' }

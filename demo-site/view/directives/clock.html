@@ -1,48 +1,50 @@
 ﻿<h1>clock</h1>
 <section class="pane left clock">
-    <ul>
-        <li>
-            <span>Local</span>
-            <span clock="myclock" format="medium" trigger="true" interval="100"></span>
-        </li>
-        <li>
-            <span>London</span>
-            <span clock format="medium" offset="0" interval="100"></span>
-        </li>
-        <li>
-            <span>Sydney</span>
-            <span clock format="medium" offset="+1100" interval="100"></span>
-        </li>
-    </ul>
-</section>
 
-<section class="pane right">
-    <div class="reference">
-        <div class="functions">
-            <div>
-                <h2>functions</h2>
-                <div>
-                    <code prism class="language-javascript">.reset()</code>
-                </div>
-                <div>
-                    <code prism class="language-javascript">.start()</code>
-                </div>
-                <div>
-                    <code prism class="language-javascript">.stop()</code>
-                </div>
-            </div>
-        </div>
+    <div class="functions">
 
-        <div class="callbacks">
-            <div>
-                <h2>callbacks</h2>
+        <h3>functions</h3>
 
-                <div class="function">
-                    <code prism class="language-javascript">'handle:tick'</code>
-                </div>
+        <code prism class="language-javascript">.start()</code>
+
+        <code prism class="language-javascript">.stop()</code>
+    </div>
+
+    <div class="callbacks">
+
+        <h3>callbacks</h3>
+
+        <div>
+            <code prism class="language-javascript">'handle:tick'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
             </div>
         </div>
     </div>
 
+    <div class="demo">
+        <h3>demo</h3>
+
+        <ul>
+            <li>
+                <span>Local</span>
+                <span clock="myclock" format="medium" trigger="true" interval="100"></span>
+            </li>
+            <li>
+                <span>London</span>
+                <span clock format="medium" offset="0" interval="100"></span>
+            </li>
+            <li>
+                <span>Sydney</span>
+                <span clock format="medium" offset="+1100" interval="100"></span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="pane right">
     <tabs tabs="tabs" selected="0"></tabs>
 </section>

@@ -280,7 +280,6 @@
                 function start(duration) {
                     if (!eng.status().running) {
                         begining = getDuration(duration) || 0;
-                        console.log(begining)
                         from = from > 0 ? from : getDuration(duration) || 0;
                         eng.start(options.interval);
                         self.onStart(eng.status(), toDuration(from));
