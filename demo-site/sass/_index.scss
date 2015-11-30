@@ -184,35 +184,48 @@ button {
     }
 }
 
-.reference {
-    width: 100%;
-    float: left;
-    border: solid 1px $gray;
-    margin-bottom: 1.000em;
+h3 {
+    color: $blue;
+    margin-top: 0;
+    font-size: 14pt;
+}
 
-    .callbacks {
-        width: 70%;
-    }
+.callbacks {
 
-    .functions {
-        width: 30%;
-    }
-
-    .functions, .callbacks {
-        float: left;
+    .callback-detail {
+        margin: 0.500em 0;
 
         > div {
-            padding: 1.000em;
+            border-bottom: solid 0.063em $spine-entry;
+            border-left: solid 0.063em $spine-entry;
+            width: 1.250em;
+            height: 0.375em;
+            float: left;
+            margin-top: 0.375em;
+            margin-right: 0.500em;
         }
 
-        h2 {
+        .callback-return {
             color: $blue;
-            margin-top: 0;
-            font-size: 14pt;
-        }
-
-        .function {
-            margin: 0.500em 0;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 10pt;
+            display: inline-block;
+            padding: 0.063em 0.250em;
+            border: solid 1px $gray;
+            color: $blue;
+            border-radius: 4px;
         }
     }
+}
+
+.functions, .callbacks {
+    margin-bottom: 1.000em;
+
+    .function {
+        margin: 0.500em 0;
+    }
+}
+
+.returns {
+    font-size: 10pt;
 }

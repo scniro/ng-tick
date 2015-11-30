@@ -214,22 +214,35 @@ button {
     text-decoration: none;
     color: #689BB7; }
 
-.reference {
-  width: 100%;
-  float: left;
-  border: solid 1px #CCC;
+h3 {
+  color: #689BB7;
+  margin-top: 0;
+  font-size: 14pt; }
+
+.callbacks .callback-detail {
+  margin: 0.500em 0; }
+  .callbacks .callback-detail > div {
+    border-bottom: solid 0.063em #D08C3B;
+    border-left: solid 0.063em #D08C3B;
+    width: 1.250em;
+    height: 0.375em;
+    float: left;
+    margin-top: 0.375em;
+    margin-right: 0.500em; }
+  .callbacks .callback-detail .callback-return {
+    color: #689BB7;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 10pt;
+    display: inline-block;
+    padding: 0.063em 0.250em;
+    border: solid 1px #CCC;
+    color: #689BB7;
+    border-radius: 4px; }
+
+.functions, .callbacks {
   margin-bottom: 1.000em; }
-  .reference .callbacks {
-    width: 70%; }
-  .reference .functions {
-    width: 30%; }
-  .reference .functions, .reference .callbacks {
-    float: left; }
-    .reference .functions > div, .reference .callbacks > div {
-      padding: 1.000em; }
-    .reference .functions h2, .reference .callbacks h2 {
-      color: #689BB7;
-      margin-top: 0;
-      font-size: 14pt; }
-    .reference .functions .function, .reference .callbacks .function {
-      margin: 0.500em 0; }
+  .functions .function, .callbacks .function {
+    margin: 0.500em 0; }
+
+.returns {
+  font-size: 10pt; }
