@@ -1,4 +1,4 @@
-﻿<h1>engine</h1>
+﻿<h2>engine</h2>
 
 <section class="pane left factory">
     <ul>
@@ -18,13 +18,12 @@
     var eng = new engine();
 
     eng.start(1000).on(function (interval) {
-        // do stuff
+        // do stuff with a 1000ms interval
     });
 
     $scope.$on('$destroy', function () {
         eng.stop(); // clear from memory
     });
-}]);</code></pre></div>
+}]);</code></pre>
+    </div>
 </section>
-
-

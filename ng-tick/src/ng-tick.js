@@ -63,9 +63,9 @@
                             scope.$root[scope.handle] = scope;
 
                         var timer = tick.timer({
-                            onLap: function (lap, ms, status) {
+                            onLap: function (status, lap, elapsed) {
                                 if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':lap', { 'lap': lap, 'elapsed': ms }, status);
+                                    scope.$root[scope.handle].$emit(scope.handle + ':lap', status, lap, elapsed);
                             },
                             onReset: function (status) {
                                 if (scope.handle)
@@ -327,7 +327,7 @@
                     if (eng.status().running) {
                         lap = true;
                         circuit += 1;
-                        self.onLap(circuit, lapped, eng.status());
+                        self.onLap(eng.status(), circuit, lapped);
                         lapped = 0;
                     }
                 }

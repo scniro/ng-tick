@@ -9,7 +9,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
     $stateProvider
         .state('home', {
             url: '/',
-            controller: 'gettingStartedCtrl',
             templateUrl: 'demo-site/view/getting-started.html'
         })
         .state('clock', {
@@ -27,15 +26,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', functio
             controller: 'timerCtrl',
             templateUrl: 'demo-site/view/directives/timer.html'
         })
+        .state('formatting', {
+            url: '/formatting',
+            templateUrl: 'demo-site/view/formatting.html'
+        })
         .state('factory', {
             url: '/factory',
-            controller: 'factoryCtrl',
             templateUrl: 'demo-site/view/factory.html'
         });
-}]);
-
-app.controller('gettingStartedCtrl', ['$scope', function ($scope) {
-
 }]);
 
 app.controller('clockCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
@@ -78,58 +76,36 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
 
 app.controller('timerCtrl', ['$scope', function ($scope) {
 
-    var lapOutput = angular.element(document.getElementById('timer-lap'));
+    var output = angular.element(document.getElementById('timer-lap'));
 
-    $scope.lap = function (handle) {
-        $scope[handle].lap();
+    $scope.lap = function () {
+        $scope.mytimer.lap();
     }
 
-    $scope.reset = function (handle) {
-        $scope[handle].reset();
+    $scope.reset = function () {
+        $scope.mytimer.reset();
     }
 
-    $scope.start = function (handle) {
-        $scope[handle].start();
+    $scope.start = function () {
+        $scope.mytimer.start();
     }
 
-    $scope.stop = function (handle) {
-        $scope[handle].stop();
+    $scope.stop = function () {
+        $scope.mytimer.stop();
     }
 
-    $scope.$on('mytimer:lap', function (event, response, status) {
-
-        if (lapOutput.children().length < 3) {
-            lapOutput.append('<li>lap: ' + response.lap + ' ms: ' + response.elapsed + '</li>');
-        } else if (lapOutput.children().length === 3) {
-            lapOutput.append('<li>you get the idea...</li>');
+    $scope.$on('mytimer:lap', function (event, status, lap, lapped) {
+        if (output.children().length < 3) {
+            output.append('<li>lap: ' + lap + ' ms: ' + lapped + '</li>');
+        } else if (output.children().length === 3) {
+            output.append('<li>you get the idea...</li>');
         }
-    });
-
-    $scope.$on('mytimer:reset', function (event, status) {
-    });
-
-    $scope.$on('mytimer:start', function (event, status) {
-    });
-
-    $scope.$on('mytimer:stop', function (event, status) {
     });
 
     $scope.tabs = [
         { 'title': 'Markup', 'url': 'demo-site/template/timer/markup.html' },
         { 'title': 'Controller', 'url': 'demo-site/template/timer/controller.html' }
     ];
-}]);
-
-app.controller('factoryCtrl', ['$scope', 'engine', function ($scope, engine) {
-
-    var eng = new engine();
-
-    eng.start(1000).on(function (interval) {
-    });
-
-    $scope.$on('$destroy', function () {
-        eng.stop();
-    });
 }]);
 
 app.directive('tabs', [function () {

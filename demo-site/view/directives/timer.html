@@ -1,14 +1,87 @@
-﻿<h1>timer</h1>
+﻿<h2>timer</h2>
 
 <section class="pane left">
-    <div>
-        <button ng-click="start('mytimer')">start</button>
 
-        <button ng-click="stop('mytimer')">stop</button>
+    <div class="functions">
 
-        <button ng-click="lap('mytimer')">lap</button>
+        <h3>functions</h3>
 
-        <button ng-click="reset('mytimer')">reset</button>
+        <code prism class="language-javascript">.lap()</code>
+
+        <code prism class="language-javascript">.reset()</code>
+
+        <code prism class="language-javascript">.start()</code>
+
+        <code prism class="language-javascript">.stop()</code>
+    </div>
+
+    <div class="callbacks">
+
+        <h3>callbacks</h3>
+
+        <div>
+            <code prism class="language-javascript">'handle:lap'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
+                <span class="callback-return">lap</span>
+                <span class="callback-return">lapped</span>
+            </div>
+        </div>
+
+        <div>
+            <code prism class="language-javascript">'handle:reset'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
+            </div>
+        </div>
+
+        <div>
+            <code prism class="language-javascript">'handle:start'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
+            </div>
+        </div>
+
+        <div>
+            <code prism class="language-javascript">'handle:stop'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
+            </div>
+        </div>
+
+        <div>
+            <code prism class="language-javascript">'handle:tick'</code>
+            <div class="callback-detail">
+                <div></div>
+                <span class="returns">returns </span>
+                <span class="callback-return">event</span>
+                <span class="callback-return">status</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo">
+        <h3>demo</h3>
+
+        <button ng-click="lap()">lap</button>
+
+        <button ng-click="reset()">reset</button>
+
+        <button ng-click="start()">start</button>
+
+        <button ng-click="stop()">stop</button>
     </div>
 
     <div>

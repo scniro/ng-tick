@@ -1,6 +1,30 @@
 ﻿<div>
-<pre><code prism class="language-javascript">
-timer controller
+<pre><code prism class="language-javascript">$scope.lap = function () {
+    $scope.mytimer.lap();
+}
+
+$scope.reset = function () {
+    $scope.mytimer.reset();
+}
+$scope.start = function () {
+    $scope.mytimer.start();
+}
+$scope.stop = function () {
+    $scope.mytimer.stop();
+}
+
+// optional callbacks
+$scope.$on('mytimer:lap', function (event, status, lap, lapped) {
+});
+
+$scope.$on('mytimer:reset', function (event, status) {
+});
+
+$scope.$on('mytimer:start', function (event, status) {
+});
+
+$scope.$on('mytimer:stop', function (event, status) {
+});
 </code>
 </pre>
 </div>
