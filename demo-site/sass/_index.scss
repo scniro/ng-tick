@@ -190,9 +190,16 @@ button {
     border: solid 1px $gray;
     margin-bottom: 1.000em;
 
+    .callbacks {
+        width: 70%;
+    }
+
+    .functions {
+        width: 30%;
+    }
+
     .functions, .callbacks {
         float: left;
-        width: 50%;
 
         > div {
             padding: 1.000em;

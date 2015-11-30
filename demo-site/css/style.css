@@ -219,9 +219,12 @@ button {
   float: left;
   border: solid 1px #CCC;
   margin-bottom: 1.000em; }
+  .reference .callbacks {
+    width: 70%; }
+  .reference .functions {
+    width: 30%; }
   .reference .functions, .reference .callbacks {
-    float: left;
-    width: 50%; }
+    float: left; }
     .reference .functions > div, .reference .callbacks > div {
       padding: 1.000em; }
     .reference .functions h2, .reference .callbacks h2 {

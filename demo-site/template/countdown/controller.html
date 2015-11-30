@@ -1,6 +1,27 @@
 ﻿<div>
-<pre><code prism class="language-javascript">
-countdown controller
+    <pre><code prism class="language-javascript">
+
+app.controller('ctrl', ['$scope', function ($scope) {
+    $scope.duration = { 'h': 1, 'm': 30, 's': 45, 'ms': 500 };
+        
+    $scope.end = function() {
+        $scope.mycountdown.end();
+    }
+    $scope.reset = function () {
+        $scope.mycountdown.reset();
+    }
+    $scope.start = function () {
+        $scope.mycountdown.start();
+    }
+    $scope.stop = function () {
+        $scope.mycountdown.stop();
+    }
+        
+    // optional callbacks
+
+});
+
+         
 </code>
 </pre>
 </div>

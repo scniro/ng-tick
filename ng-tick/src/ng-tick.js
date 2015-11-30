@@ -124,22 +124,25 @@
                                 if (scope.handle)
                                     scope.$root[scope.handle].$emit(scope.handle + ':end', status);
                             },
-                            onReset: function (status) {
+                            onReset: function (status, remaining) {
                                 if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':reset', status);
+                                    scope.$root[scope.handle].$emit(scope.handle + ':reset', status, remaining);
                             },
-                            onStart: function (status) {
+                            onStart: function (status, remaining) {
                                 if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':start', status);
+                                    scope.$root[scope.handle].$emit(scope.handle + ':start', status, remaining);
                             },
-                            onStop: function (status) {
+                            onStop: function (status, remaining) {
                                 if (scope.handle)
-                                    scope.$root[scope.handle].$emit(scope.handle + ':stop', status);
+                                    scope.$root[scope.handle].$emit(scope.handle + ':stop', status, remaining);
                             },
-                            onTick: function (ms) {
+                            onTick: function (status, ms, remaining) {
                                 var relative = filters.relative(ms);
                                 var value = scope.format ? filters.date(relative, scope.format) : relative;
                                 elem[0].value !== undefined ? elem.val(value) : elem.text(value);
+
+                                if (scope.handle)
+                                    scope.$root[scope.handle].$emit(scope.handle + ':tick', status, remaining);
                             }
                         });
 
@@ -207,12 +210,12 @@
                 options = options || {};
 
                 var eng = new engine();
-                var from;
+                var from, begining;
                 var self = this;
 
                 eng.on(function (interval) {
                     from -= interval;
-                    from >= 0 ? self.onTick(from) : end();
+                    from >= 0 ? self.onTick(eng.status(), from, toDuration(from)) : end();
                 });
 
                 self.onEnd = options.onEnd || function () { };
@@ -224,9 +227,7 @@
                 function getDuration(chunk) {
 
                     var now = new Date();
-
                     var c = chunk || {};
-
                     var key, keys = Object.keys(c);
                     var n = keys.length;
                     var newobj = {}
@@ -248,32 +249,48 @@
                     return Math.abs(now - new Date());
                 }
 
+                function toDuration(ms) {
+
+                    var milliseconds = parseInt(ms % 1000)
+                    , seconds = parseInt((ms / 1000) % 60)
+                    , minutes = parseInt((ms / (1000 * 60)) % 60)
+                    , hours = parseInt((ms / (1000 * 60 * 60)) % 24);
+
+                    hours = (hours < 10) ? 0 + hours : hours;
+                    minutes = (minutes < 10) ? 0 + minutes : minutes;
+                    seconds = (seconds < 10) ? 0 + seconds : seconds;
+
+                    return { 'h': hours, 'm': minutes, 's': seconds, 'ms': milliseconds, 'percentage': parseFloat((ms / begining).toFixed(4)) }
+                }
+
                 function end() {
                     from = 0;
                     eng.stop();
-                    self.onTick(0);
+                    self.onTick(eng.status(), 0);
                     self.onEnd(eng.status());
                 }
 
                 function reset(duration) {
                     from = getDuration(duration) || 0;
                     eng.stop();
-                    self.onTick(from);
-                    self.onReset(eng.status());
+                    self.onTick(eng.status(), from);
+                    self.onReset(eng.status(), toDuration(from));
                 }
 
                 function start(duration) {
                     if (!eng.status().running) {
+                        begining = getDuration(duration) || 0;
+                        console.log(begining)
                         from = from > 0 ? from : getDuration(duration) || 0;
                         eng.start(options.interval);
-                        self.onStart(eng.status());
+                        self.onStart(eng.status(), toDuration(from));
                     }
                 }
 
                 function stop() {
                     if (eng.status().running) {
                         eng.stop();
-                        self.onStop(eng.status());
+                        self.onStop(eng.status(), toDuration(from));
                     }
                 }
 
