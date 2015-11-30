@@ -96,7 +96,7 @@ app.controller('timerCtrl', ['$scope', function ($scope) {
 
     $scope.$on('mytimer:lap', function (event, status, lap, lapped) {
         if (output.children().length < 3) {
-            output.append('<li>lap: ' + lap + ' ms: ' + lapped + '</li>');
+            output.append('<li>lap ' + '<span class="demo-lap">' + lap + '</span> ms elapsed ' + '<span class="demo-lapped">' + lapped + '</span></li>');
         } else if (output.children().length === 3) {
             output.append('<li>you get the idea...</li>');
         }
@@ -145,130 +145,130 @@ app.directive('prism', [function () {
 }]);
 
 app.directive('binaryClock', [
-            'engine', function (engine) {
-                return {
-                    restrict: 'E',
-                    template:
-                        '<div id="clock">' +
-                            '<div class="field" id="hours">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            ' <tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div class="bit" id="hours-eights"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="blank" id="hours-forties"></div></td>' +
-                            '<td><div class="bit" id="hours-fours"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="hours-twenties"></div></td>' +
-                            '<td><div class="bit" id="hours-twos"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="hours-tens"></div></td>' +
-                            '<td><div class="bit" id="hours-ones"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '<div class="field" id="minutes">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            '<tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div class="bit" id="minutes-eights"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-forties"></div></td>' +
-                            '<td><div class="bit" id="minutes-fours"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-twenties"></div></td>' +
-                            '<td><div class="bit" id="minutes-twos"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div class="bit" id="minutes-tens"></div></td>' +
-                            '<td><div class="bit" id="minutes-ones"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '<div class="field" id="seconds">' +
-                            '<table border="0" cellspacing="0" cellpadding="0">' +
-                            '<tr>' +
-                            '<td><div class="blank"></div></td>' +
-                            '<td><div id="seconds-eights" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-forties" class="bit"></div></td>' +
-                            '<td><div id="seconds-fours" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-twenties" class="bit"></div></td>' +
-                            '<td><div id="seconds-twos" class="bit"></div></td>' +
-                            '</tr>' +
-                            '<tr>' +
-                            '<td><div id="seconds-tens" class="bit"></div></td>' +
-                            '<td><div id="seconds-ones" class="bit"></div></td>' +
-                            '</tr>' +
-                            '</table>' +
-                            '</div>' +
-                            '</div>',
-                    link: function (scope, elem, attrs) {
+    'engine', function(engine) {
+        return {
+            restrict: 'E',
+            template:
+                '<div id="clock">' +
+                    '<div class="field" id="hours">' +
+                    '<table border="0" cellspacing="0" cellpadding="0">' +
+                    ' <tr>' +
+                    '<td><div class="blank"></div></td>' +
+                    '<td><div class="bit" id="hours-eights"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="blank" id="hours-forties"></div></td>' +
+                    '<td><div class="bit" id="hours-fours"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="bit" id="hours-twenties"></div></td>' +
+                    '<td><div class="bit" id="hours-twos"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="bit" id="hours-tens"></div></td>' +
+                    '<td><div class="bit" id="hours-ones"></div></td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>' +
+                    '<div class="field" id="minutes">' +
+                    '<table border="0" cellspacing="0" cellpadding="0">' +
+                    '<tr>' +
+                    '<td><div class="blank"></div></td>' +
+                    '<td><div class="bit" id="minutes-eights"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="bit" id="minutes-forties"></div></td>' +
+                    '<td><div class="bit" id="minutes-fours"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="bit" id="minutes-twenties"></div></td>' +
+                    '<td><div class="bit" id="minutes-twos"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div class="bit" id="minutes-tens"></div></td>' +
+                    '<td><div class="bit" id="minutes-ones"></div></td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>' +
+                    '<div class="field" id="seconds">' +
+                    '<table border="0" cellspacing="0" cellpadding="0">' +
+                    '<tr>' +
+                    '<td><div class="blank"></div></td>' +
+                    '<td><div id="seconds-eights" class="bit"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div id="seconds-forties" class="bit"></div></td>' +
+                    '<td><div id="seconds-fours" class="bit"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div id="seconds-twenties" class="bit"></div></td>' +
+                    '<td><div id="seconds-twos" class="bit"></div></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><div id="seconds-tens" class="bit"></div></td>' +
+                    '<td><div id="seconds-ones" class="bit"></div></td>' +
+                    '</tr>' +
+                    '</table>' +
+                    '</div>' +
+                    '</div>',
+            link: function(scope, elem, attrs) {
 
-                        function setBit(field, value) {
+                function setBit(field, value) {
 
-                            var ele = document.getElementById(field);
+                    var ele = document.getElementById(field);
 
-                            if (ele.classList.contains('blank'))
-                                return false;
+                    if (ele.classList.contains('blank'))
+                        return false;
 
-                            if (value)
-                                ele.setAttribute('class', 'bit on');
-                            else
-                                ele.setAttribute('class', 'bit off');
-                        }
-
-                        function setBCDs(field, value) {
-
-                            setBit(field + '-forties', value >= 40);
-
-                            if (value >= 40) {
-                                value -= 40;
-                            }
-                            setBit(field + '-twenties', value >= 20);
-                            if (value >= 20) {
-                                value -= 20;
-                            }
-                            setBit(field + '-tens', value >= 10);
-                            if (value >= 10) {
-                                value -= 10;
-                            }
-                            setBit(field + '-eights', value >= 8);
-                            if (value >= 8) {
-                                value -= 8;
-                            }
-                            setBit(field + '-fours', value >= 4);
-                            if (value >= 4) {
-                                value -= 4;
-                            }
-                            setBit(field + '-twos', value >= 2);
-                            if (value >= 2) {
-                                value -= 2;
-                            }
-                            setBit(field + '-ones', value >= 1);
-                        }
-
-                        var eng = new engine();
-
-                        eng.start(100).on(function (interval) {
-                            var now = new Date();
-                            setBCDs('hours', now.getHours());
-                            setBCDs('minutes', now.getMinutes());
-                            setBCDs('seconds', now.getSeconds());
-                        });
-
-                        scope.$on('$destroy', function () {
-                            eng.stop();
-                        });
-                    }
+                    if (value)
+                        ele.setAttribute('class', 'bit on');
+                    else
+                        ele.setAttribute('class', 'bit off');
                 }
+
+                function setBCDs(field, value) {
+
+                    setBit(field + '-forties', value >= 40);
+
+                    if (value >= 40) {
+                        value -= 40;
+                    }
+                    setBit(field + '-twenties', value >= 20);
+                    if (value >= 20) {
+                        value -= 20;
+                    }
+                    setBit(field + '-tens', value >= 10);
+                    if (value >= 10) {
+                        value -= 10;
+                    }
+                    setBit(field + '-eights', value >= 8);
+                    if (value >= 8) {
+                        value -= 8;
+                    }
+                    setBit(field + '-fours', value >= 4);
+                    if (value >= 4) {
+                        value -= 4;
+                    }
+                    setBit(field + '-twos', value >= 2);
+                    if (value >= 2) {
+                        value -= 2;
+                    }
+                    setBit(field + '-ones', value >= 1);
+                }
+
+                var eng = new engine();
+
+                eng.start(100).on(function(interval) {
+                    var now = new Date();
+                    setBCDs('hours', now.getHours());
+                    setBCDs('minutes', now.getMinutes());
+                    setBCDs('seconds', now.getSeconds());
+                });
+
+                scope.$on('$destroy', function() {
+                    eng.stop();
+                });
             }
-])
+        }
+    }
+]);

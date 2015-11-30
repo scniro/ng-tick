@@ -18,10 +18,11 @@ img {
 
 aside.spine {
   width: 12.000em;
-  padding-top: 2.000em; }
+  padding-top: 2.000em;
+  width: calc(12.000em - 1px); }
   aside.spine a {
     text-decoration: none;
-    color: #767DC2; }
+    color: #2A82F2; }
     aside.spine a:hover {
       text-decoration: underline; }
   aside.spine ol {
@@ -37,30 +38,18 @@ aside.spine {
       aside.spine ol li.static {
         color: #3E3D32; }
       aside.spine ol li.root div {
-        border-bottom: solid 0.063em #D08C3B; }
+        border-bottom: solid 0.063em #FFC900; }
       aside.spine ol li.sub {
         padding-left: 2.000em; }
         aside.spine ol li.sub div {
-          border-bottom: solid 0.063em #D08C3B;
-          border-left: solid 0.063em #D08C3B; }
+          border-bottom: solid 0.063em #FFC900;
+          border-left: solid 0.063em #FFC900; }
       aside.spine ol li div {
         float: left;
         height: 0.375em;
         width: 1.250em;
         margin-top: 0.375em;
         margin-right: 0.500em; }
-
-pre {
-  margin: 0 !important; }
-
-pre, code {
-  font-size: 10pt; }
-
-pre[class*="language-shell"] {
-  background-color: #3E3D32; }
-  pre[class*="language-shell"] code {
-    text-shadow: none;
-    color: white; }
 
 tabs .header {
   list-style: none;
@@ -88,26 +77,58 @@ tabs .body {
   background-color: #f5f2f0;
   border: solid 0.063em #CCC; }
 
+button {
+  background: none;
+  background-color: transparent;
+  border: solid 1px #FFC900;
+  border-radius: 4px;
+  padding: 4px 8px;
+  outline: none;
+  width: 4.500em; }
+  button:hover, button:focus {
+    background-color: #FFE99A; }
+
+h2 {
+  margin: 0;
+  margin-bottom: 1.000em; }
+
+h3 {
+  color: #2A82F2;
+  margin-top: 0;
+  font-size: 14pt; }
+
 body {
   font-family: 'Open Sans', sans-serif;
   overflow: hidden;
   min-width: 58.000em;
   overflow-x: auto;
-  background-color: #f5f2f0; }
+  background-color: white; }
+
+pre {
+  margin: 0 !important; }
+
+pre, code {
+  font-size: 10pt; }
+
+pre[class*="language-shell"] {
+  background-color: #3E3D32; }
+  pre[class*="language-shell"] code {
+    text-shadow: none;
+    color: white; }
 
 header {
   width: 100%;
   box-sizing: border-box;
   padding: 0.500em 2.000em;
   height: 4.000em;
-  background-color: #FFF;
+  background-color: white;
   overflow: hidden;
-  background-color: #689BB7; }
+  background-color: #0051BA; }
   header h1 {
     display: inline;
     font-size: 20pt;
     letter-spacing: 0.125em;
-    color: #FFF;
+    color: white;
     line-height: 180%;
     margin-left: 7.000em; }
   header a {
@@ -130,13 +151,12 @@ section.content {
   overflow: auto;
   position: absolute;
   top: 4.000em;
-  left: 12.000em;
+  left: calc(12.000em - 1px);
   right: 0;
   bottom: 0;
   min-width: 42.000em;
-  background-color: #FFF; }
-  section.content h1 {
-    margin-top: 0; }
+  background-color: white;
+  border-left: solid 1px #CCC; }
   section.content section.pane {
     width: 50%;
     box-sizing: border-box;
@@ -162,9 +182,8 @@ section.content {
           display: inline-block; }
           section.content section.pane.left.clock ul li span:first-of-type {
             width: 3.500em;
-            color: #D0A73B;
-            background-color: #FFEAB0;
-            border: solid 1px #D0A73B;
+            color: white;
+            background-color: #FFC900;
             border-radius: 4px;
             font-size: 10pt;
             padding: 0.063em 0.500em;
@@ -185,71 +204,46 @@ binary-clock {
   binary-clock .bit {
     width: 2.000em;
     height: 1.000em;
-    border: solid 1px #689BB7;
+    border: solid 1px #0051BA;
     box-sizing: border-box; }
   binary-clock .bit.on {
-    background-color: #CCE3EF; }
+    background-color: #9DC4F6; }
   binary-clock .bit.off {
-    background-color: #98C0D6; }
-
-#timer-lap {
-  list-style: none;
-  padding: 0; }
+    background-color: #2A82F2; }
 
 .tick {
   font-size: 20pt;
   margin: 0.500em 0;
   display: block;
-  color: #689BB7; }
-
-button {
-  background: none;
-  background-color: transparent;
-  border: solid 1px #D0A73B;
-  border-radius: 4px;
-  padding: 4px 8px;
-  outline: none;
-  width: 4.500em; }
-  button:hover, button:focus {
-    background-color: #FFEAB0; }
+  color: #0051BA; }
 
 .inline-link {
-  border: solid 1px #689BB7;
-  background-color: #CCE3EF;
+  border: solid 1px #0051BA;
+  background-color: #9DC4F6;
   padding: 2px 4px;
   border-radius: 4px;
   white-space: nowrap; }
   .inline-link a {
     text-decoration: none;
-    color: #689BB7; }
-
-h2 {
-  margin: 0;
-  margin-bottom: 1.000em; }
-
-h3 {
-  color: #689BB7;
-  margin-top: 0;
-  font-size: 14pt; }
+    color: #0051BA; }
 
 .callbacks .callback-detail {
   margin: 0.500em 0; }
   .callbacks .callback-detail > div {
-    border-bottom: solid 0.063em #D08C3B;
-    border-left: solid 0.063em #D08C3B;
+    border-bottom: solid 0.063em #FFC900;
+    border-left: solid 0.063em #FFC900;
     width: 1.250em;
     height: 0.375em;
     float: left;
     margin-top: 0.375em;
     margin-right: 0.500em; }
   .callbacks .callback-detail .callback-return {
-    color: #689BB7;
+    color: #0051BA;
     font-family: Consolas, 'Courier New', monospace;
     font-size: 10pt;
     display: inline-block;
     padding: 0.063em 0.250em;
     border: solid 1px #CCC;
-    color: #689BB7;
     border-radius: 4px; }
 
 .functions, .callbacks {
@@ -263,10 +257,28 @@ h3 {
 .note {
   margin-bottom: 1.500em;
   padding: 0.500em 1.500em;
-  background-color: #FFEAB0;
-  border: solid 1px #D0A73B;
+  background-color: #FFC900;
   border-radius: 6px;
-  color: #D0A73B;
+  color: white;
   font-size: 10pt;
   display: inline-block;
   font-style: italic; }
+
+.demo-lap {
+  padding: 0 0.500em;
+  color: white;
+  background-color: #2A82F2;
+  border-radius: 4px; }
+
+.demo-lapped {
+  padding: 0 0.250em;
+  color: white;
+  background-color: #FFC900;
+  border-radius: 4px; }
+
+#timer-lap {
+  font-size: 10pt;
+  margin-left: 1.000em;
+  padding: 0; }
+  #timer-lap li {
+    margin-bottom: 0.500em; }

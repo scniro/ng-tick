@@ -3,7 +3,24 @@
     overflow: hidden;
     min-width: 58.000em;
     overflow-x: auto;
-    background-color: $gray-lighter;
+    background-color: white;
+}
+
+pre {
+    margin: 0 !important;
+}
+
+pre, code {
+    font-size: 10pt;
+}
+
+pre[class*="language-shell"] {
+    background-color: $black;
+
+    code {
+        text-shadow: none;
+        color: white;
+    }
 }
 
 header {
@@ -11,15 +28,15 @@ header {
     box-sizing: border-box;
     padding: 0.500em 2.000em;
     height: 4.000em;
-    background-color: $white;
+    background-color: white;
     overflow: hidden;
-    background-color: $blue;
+    background-color: $accent;
 
     h1 {
         display: inline;
         font-size: 20pt;
         letter-spacing: 0.125em;
-        color: $white;
+        color: white;
         line-height: 180%;
         margin-left: 7.000em;
     }
@@ -51,15 +68,12 @@ section.content {
     overflow: auto;
     position: absolute;
     top: 4.000em;
-    left: 12.000em;
+    left: calc(12.000em - 1px);
     right: 0;
     bottom: 0;
     min-width: 42.000em;
-    background-color: $white;
-
-    h1 {
-        margin-top: 0;
-    }
+    background-color: white;
+    border-left: solid 1px $gray;
 
     section.pane {
         width: 50%;
@@ -97,16 +111,12 @@ section.content {
 
                         &:first-of-type {
                             width: 3.500em;
-                            color: $yellow;
-                            background-color: $yellow-lighter;
-                            border: solid 1px $yellow;
+                            color: white;
+                            background-color: $contrast-3;
                             border-radius: 4px;
                             font-size: 10pt;
                             padding: 0.063em 0.500em;
                             margin-right: 0.500em;
-                        }
-
-                        &:last-of-type {
                         }
                     }
                 }
@@ -143,67 +153,37 @@ binary-clock {
     .bit {
         width: 2.000em;
         height: 1.000em;
-        border: solid 1px $blue;
+        border: solid 1px $accent;
         box-sizing: border-box;
     }
 
     .bit.on {
-        background-color: $blue-lighter;
+        background-color: $accent-1;
     }
 
     .bit.off {
-        background-color: $blue-light;
+        background-color: $accent-2;
     }
-}
-
-#timer-lap {
-    list-style: none;
-    padding: 0;
 }
 
 .tick {
     font-size: 20pt;
     margin: 0.500em 0;
     display: block;
-    color: $blue;
-}
-
-button {
-    background: none;
-    background-color: transparent;
-    border: solid 1px $yellow;
-    border-radius: 4px;
-    padding: 4px 8px;
-    outline: none;
-    width: 4.500em;
-
-    &:hover, &:focus {
-        background-color: $yellow-lighter;
-    }
+    color: $accent;
 }
 
 .inline-link {
-    border: solid 1px $blue;
-    background-color: $blue-lighter;
+    border: solid 1px $accent;
+    background-color: $accent-1;
     padding: 2px 4px;
     border-radius: 4px;
-    white-space:nowrap;
+    white-space: nowrap;
 
     a {
         text-decoration: none;
-        color: $blue;
+        color: $accent;
     }
-}
-
-h2 {
-    margin: 0;
-    margin-bottom: 1.000em;
-}
-
-h3 {
-    color: $blue;
-    margin-top: 0;
-    font-size: 14pt;
 }
 
 .callbacks {
@@ -212,8 +192,8 @@ h3 {
         margin: 0.500em 0;
 
         > div {
-            border-bottom: solid 0.063em $spine-entry;
-            border-left: solid 0.063em $spine-entry;
+            border-bottom: solid 0.063em $contrast-3;
+            border-left: solid 0.063em $contrast-3;
             width: 1.250em;
             height: 0.375em;
             float: left;
@@ -222,13 +202,12 @@ h3 {
         }
 
         .callback-return {
-            color: $blue;
+            color: $accent;
             font-family: Consolas, 'Courier New', monospace;
             font-size: 10pt;
             display: inline-block;
             padding: 0.063em 0.250em;
             border: solid 1px $gray;
-            color: $blue;
             border-radius: 4px;
         }
     }
@@ -249,11 +228,34 @@ h3 {
 .note {
     margin-bottom: 1.500em;
     padding: 0.500em 1.500em;
-    background-color: $yellow-lighter;
-    border: solid 1px $yellow;
+    background-color: $contrast-3;
     border-radius: 6px;
-    color: $yellow;
+    color: white;
     font-size: 10pt;
     display: inline-block;
     font-style: italic;
+}
+
+.demo-lap {
+    padding: 0 0.500em;
+    color: white;
+    background-color: $accent-2;
+    border-radius: 4px;
+}
+
+.demo-lapped {
+    padding: 0 0.250em;
+    color: white;
+    background-color: $contrast-3;
+    border-radius: 4px;
+}
+
+#timer-lap {
+    font-size: 10pt;
+    margin-left: 1.000em;
+    padding: 0;
+
+    li {
+        margin-bottom: 0.500em;
+    }
 }
