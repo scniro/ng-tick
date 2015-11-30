@@ -59,16 +59,20 @@ app.controller('countdownCtrl', ['$scope', function ($scope) {
         'ms': 500
     };
 
-    $scope.reset = function (handle) {
-        $scope[handle].reset();
+    $scope.end = function() {
+        $scope.mycountdown.end();
     }
 
-    $scope.start = function (handle) {
-        $scope[handle].start();
+    $scope.reset = function () {
+        $scope.mycountdown.reset();
     }
 
-    $scope.stop = function (handle) {
-        $scope[handle].stop();
+    $scope.start = function () {
+        $scope.mycountdown.start();
+    }
+
+    $scope.stop = function () {
+        $scope.mycountdown.stop();
     }
 
     $scope.tabs = [

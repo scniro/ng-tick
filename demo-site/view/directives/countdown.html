@@ -1,15 +1,69 @@
 ﻿<h1>countdown</h1>
 <section class="pane left">
-    <button ng-click="start('mycountdown')">start</button>
 
-    <button ng-click="stop('mycountdown')">stop</button>
+    <button ng-click="end()">end</button>
 
-    <button ng-click="reset('mycountdown')">reset</button>
+    <button ng-click="reset()">reset</button>
+
+    <button ng-click="start()">start</button>
+
+    <button ng-click="stop()">stop</button>
 
     <div>
         <span class="tick" countdown="mycountdown" format="HH:mm:ss:sss" duration="duration" trigger="true" interval="10"></span>
     </div>
 </section>
 <section class="pane right">
+
+    <div class="reference">
+        <div class="functions">
+            <div>
+                <h2>functions</h2>
+                <div>
+                    <code prism class="language-javascript">.end()</code>
+                </div>
+                <div>
+                    <code prism class="language-javascript">.reset()</code>
+                </div>
+                <div>
+                    <code prism class="language-javascript">.start()</code>
+                </div>
+                <div>
+                    <code prism class="language-javascript">.stop()</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="callbacks">
+            <div>
+                <h2>callbacks</h2>
+
+                <div class="function">
+
+                    <div>
+                        <code prism class="language-javascript">'handle:end'</code>
+                    </div>
+
+                    <div>
+                        <code prism class="language-javascript">'handle:reset'</code>
+                    </div>
+
+                    <div>
+                        <code prism class="language-javascript">'handle:start'</code>
+                    </div>
+
+                    <div>
+                        <code prism class="language-javascript">'handle:stop'</code>
+                    </div>
+
+                    <div>
+                        <code prism class="language-javascript">'handle:tick'</code>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <tabs tabs="tabs" selected="0"></tabs>
 </section>

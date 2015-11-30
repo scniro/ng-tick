@@ -40,7 +40,7 @@
 
                         scope.$on('$destroy', function () { clock.stop(); });
 
-                        if (!scope.trigger) 
+                        if (!scope.trigger)
                             scope.start();
                     }
                 }
@@ -143,6 +143,8 @@
                             }
                         });
 
+                        scope.end = function () { countdown.end(); }
+
                         scope.reset = function () { countdown.reset(scope.duration); }
 
                         scope.start = function () { countdown.start(scope.duration); }
@@ -232,10 +234,10 @@
                 }
 
                 function end() {
-                    if (eng.status().running) {
-                        eng.stop();
-                        self.onEnd(eng.status());
-                    }
+                    from = 0;
+                    eng.stop();
+                    self.onTick(0);
+                    self.onEnd(eng.status());
                 }
 
                 function reset(duration) {
@@ -261,6 +263,7 @@
                 }
 
                 return {
+                    end: end,
                     reset: reset,
                     start: start,
                     stop: stop
