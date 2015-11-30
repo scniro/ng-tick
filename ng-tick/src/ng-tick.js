@@ -225,10 +225,25 @@
 
                     var now = new Date();
 
-                    now.setMilliseconds(now.getMilliseconds() + (chunk.ms ? chunk.ms : 0));
-                    now.setSeconds(now.getSeconds() + (chunk.s || 0));
-                    now.setMinutes(now.getMinutes() + (chunk.m || 0));
-                    now.setHours(now.getHours() + (chunk.h || 0));
+                    var c = chunk || {};
+
+                    var key, keys = Object.keys(c);
+                    var n = keys.length;
+                    var newobj = {}
+                    while (n--) {
+                        key = keys[n];
+                        newobj[key.toLowerCase()] = c[key];
+                    }
+
+                    var h = newobj.h || 0;
+                    var m = newobj.m || 0;
+                    var s = newobj.s || 0;
+                    var ms = newobj.ms || 0;
+
+                    now.setMilliseconds(now.getMilliseconds() + ms);
+                    now.setSeconds(now.getSeconds() + s);
+                    now.setMinutes(now.getMinutes() + m);
+                    now.setHours(now.getHours() + h);
 
                     return Math.abs(now - new Date());
                 }

@@ -52,12 +52,7 @@ app.controller('clockCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
 
 app.controller('countdownCtrl', ['$scope', function ($scope) {
 
-    $scope.duration = {
-        'h': 1,
-        'm': 30,
-        's': 45,
-        'ms': 500
-    };
+    $scope.duration = { 'h': 1, 'm': 30, 's': 45, 'ms': 500 };
 
     $scope.end = function() {
         $scope.mycountdown.end();
