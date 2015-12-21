@@ -6,19 +6,13 @@ A more accurate self-healing JS timer with various timimg-type directives built 
 # Getting Started
 
 ```
-bower install ng-accordion
+bower install ng-tick
 ```
 
-* Include the `ngaccordion` module as a dependency in your AngularJS application
+* Include the `ngTick` module as a dependency in your AngularJS application
 
 ```javascript
-angular.module('app', ['ngaccordion'])
-```
-
-* Include the `ng-accordion.css` style sheet
-
-```html
-<link rel="stylesheet" href="/ng-accordion.css" />
+angular.module('app', ['ngTick'])
 ```
 
 Based on an idea by James Edwards:
