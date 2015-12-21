@@ -1,6 +1,6 @@
 {
   "name": "ngTick",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A more accurate timer with various common use directives",
   "dependencies": {
     "angular": "^1.2"
