@@ -1,5 +1,5 @@
 ﻿# ngTick
-A more accurate self-healing JS timer with various timimg-type directives built on top
+A more accurate self-healing JS timer with various timing directives built on top
 
 - [demo/api](http://ng-tick.azurewebsites.net/)
 

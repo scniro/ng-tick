@@ -5,7 +5,7 @@
     "authors": [
         "Sal Niro salvatore.niro@outlook.com"
     ],
-    "description": "A more accurate timer with various common use directives",
+    "description": "A more accurate self-healing JS timer with various timing directives built on top",
     "main": "ng-tick.js",
     "keywords": [
         "moment",
